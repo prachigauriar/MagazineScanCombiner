@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ScanCombinerWindowController" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
+            <connections>
+                <outlet property="combinePDFsButton" destination="jjE-W0-6TY" id="hOY-Jo-ElE"/>
+                <outlet property="frontPagesFileDropImageView" destination="37j-cr-Ai7" id="5rI-7o-PPC"/>
+                <outlet property="frontPagesFilePathField" destination="jBT-wh-YHh" id="6Ds-BZ-gfG"/>
+                <outlet property="reversedBackPagesFileDropImageView" destination="2qN-oM-l7E" id="BOs-92-U8n"/>
+                <outlet property="reversedBackPagesFilePathField" destination="5ge-sw-8Eh" id="i1i-nR-20u"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="fcO-mb-RQr"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="184" y="534" width="572" height="355"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <value key="minSize" type="size" width="572" height="355"/>
+            <value key="maxSize" type="size" width="572" height="355"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="572" height="355"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jjE-W0-6TY">
+                        <rect key="frame" x="221" y="13" width="130" height="32"/>
+                        <buttonCell key="cell" type="push" title="Combine PDFs" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ekB-ox-cU0">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="combinePDFs:" target="-2" id="yB4-al-JMT"/>
+                        </connections>
+                    </button>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="37j-cr-Ai7" customClass="FileDropImageView" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
+                        <rect key="frame" x="17" y="76" width="262" height="262"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" imageFrameStyle="grayBezel" id="vlv-tO-lQW"/>
+                    </imageView>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2qN-oM-l7E" customClass="FileDropImageView" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
+                        <rect key="frame" x="293" y="76" width="262" height="262"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" imageFrameStyle="grayBezel" id="70Z-vJ-9qd"/>
+                    </imageView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jBT-wh-YHh">
+                        <rect key="frame" x="20" y="49" width="256" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="PDF of Front Pages" usesSingleLineMode="YES" id="dZx-Pa-eGi">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5ge-sw-8Eh">
+                        <rect key="frame" x="296" y="49" width="256" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="PDF of Back Pages in Reverse" usesSingleLineMode="YES" id="8TA-bj-JIe">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="37j-cr-Ai7" firstAttribute="width" secondItem="2qN-oM-l7E" secondAttribute="width" id="1f6-wp-9CX"/>
+                    <constraint firstItem="jBT-wh-YHh" firstAttribute="leading" secondItem="37j-cr-Ai7" secondAttribute="leading" id="1mx-sA-aZl"/>
+                    <constraint firstItem="jjE-W0-6TY" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="2qN-oM-l7E" secondAttribute="trailing" id="5Zb-bc-AEn"/>
+                    <constraint firstItem="jBT-wh-YHh" firstAttribute="trailing" secondItem="37j-cr-Ai7" secondAttribute="trailing" id="5pX-MZ-8BE"/>
+                    <constraint firstItem="jjE-W0-6TY" firstAttribute="top" secondItem="5ge-sw-8Eh" secondAttribute="bottom" constant="8" symbolic="YES" id="A2e-et-cKQ"/>
+                    <constraint firstItem="jjE-W0-6TY" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="IUU-Tw-ntV"/>
+                    <constraint firstItem="2qN-oM-l7E" firstAttribute="bottom" secondItem="37j-cr-Ai7" secondAttribute="bottom" id="UJN-gG-daF"/>
+                    <constraint firstItem="2qN-oM-l7E" firstAttribute="leading" secondItem="37j-cr-Ai7" secondAttribute="trailing" constant="20" id="UTt-w0-67e"/>
+                    <constraint firstItem="2qN-oM-l7E" firstAttribute="top" secondItem="37j-cr-Ai7" secondAttribute="top" id="Zxh-7f-F9g"/>
+                    <constraint firstItem="5ge-sw-8Eh" firstAttribute="leading" secondItem="2qN-oM-l7E" secondAttribute="leading" id="aP4-IW-s0e"/>
+                    <constraint firstItem="5ge-sw-8Eh" firstAttribute="top" secondItem="2qN-oM-l7E" secondAttribute="bottom" constant="8" id="dbz-Ml-j1P"/>
+                    <constraint firstAttribute="bottom" secondItem="jjE-W0-6TY" secondAttribute="bottom" constant="20" symbolic="YES" id="elk-Ji-Zto"/>
+                    <constraint firstItem="37j-cr-Ai7" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="fZm-uC-Zow"/>
+                    <constraint firstItem="jBT-wh-YHh" firstAttribute="top" secondItem="37j-cr-Ai7" secondAttribute="bottom" constant="8" id="hpf-C5-IZo"/>
+                    <constraint firstAttribute="trailing" secondItem="2qN-oM-l7E" secondAttribute="trailing" constant="20" symbolic="YES" id="oVJ-VU-pmg"/>
+                    <constraint firstItem="jBT-wh-YHh" firstAttribute="centerX" secondItem="37j-cr-Ai7" secondAttribute="centerX" id="oZp-Nd-YoA"/>
+                    <constraint firstItem="37j-cr-Ai7" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="ufL-rA-eE0"/>
+                    <constraint firstItem="5ge-sw-8Eh" firstAttribute="trailing" secondItem="2qN-oM-l7E" secondAttribute="trailing" id="zoS-vg-Cu1"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="324.5" y="313.5"/>
+        </window>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="6yu-Rq-2zC" userLabel="Progress Sheet">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="163" y="199" width="480" height="83"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <view key="contentView" id="Vt9-GB-1i4">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="83"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="2DM-PU-Emr">
+                        <rect key="frame" x="20" y="44" width="440" height="20"/>
+                    </progressIndicator>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cS5-6e-cS3">
+                        <rect key="frame" x="18" y="20" width="444" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Reversing %1$@ of %2$@ pages." id="tbM-OZ-Hjq">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="2DM-PU-Emr" secondAttribute="trailing" constant="20" symbolic="YES" id="2nn-ya-kT3"/>
+                    <constraint firstItem="2DM-PU-Emr" firstAttribute="top" secondItem="Vt9-GB-1i4" secondAttribute="top" constant="20" symbolic="YES" id="9Bo-aK-9xc"/>
+                    <constraint firstItem="cS5-6e-cS3" firstAttribute="top" secondItem="2DM-PU-Emr" secondAttribute="bottom" constant="8" symbolic="YES" id="FWM-29-PXB"/>
+                    <constraint firstItem="cS5-6e-cS3" firstAttribute="leading" secondItem="2DM-PU-Emr" secondAttribute="leading" id="Ud2-4l-YFQ"/>
+                    <constraint firstAttribute="bottom" secondItem="cS5-6e-cS3" secondAttribute="bottom" constant="20" symbolic="YES" id="l1q-LH-YVl"/>
+                    <constraint firstItem="cS5-6e-cS3" firstAttribute="trailing" secondItem="2DM-PU-Emr" secondAttribute="trailing" id="rd6-OE-yc4"/>
+                    <constraint firstItem="2DM-PU-Emr" firstAttribute="leading" secondItem="Vt9-GB-1i4" secondAttribute="leading" constant="20" symbolic="YES" id="zPp-o8-9FG"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="422" y="-34.5"/>
+        </window>
+    </objects>
+</document>
