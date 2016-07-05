@@ -68,9 +68,6 @@
 				4CDB5FB31D299D59009F5556 /* Models */,
 				4CDB5FB11D299D59009F5556 /* Controllers */,
 				4CDB5FB51D299D59009F5556 /* Views */,
-				4CDB5F981D299CEB009F5556 /* Assets.xcassets */,
-				4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */,
-				4CDB5F9D1D299CEB009F5556 /* Info.plist */,
 			);
 			path = "Magazine Scan Combiner";
 			sourceTree = "<group>";
@@ -79,6 +76,9 @@
 			isa = PBXGroup;
 			children = (
 				4CDB5FA41D299D07009F5556 /* AppDelegate.swift */,
+				4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */,
+				4CDB5F981D299CEB009F5556 /* Assets.xcassets */,
+				4CDB5F9D1D299CEB009F5556 /* Info.plist */,
 				4CDB5FC11D2B567F009F5556 /* Localizable.stringsdict */,
 			);
 			path = Application;
@@ -201,6 +201,7 @@
 				4CDB5F9B1D299CEB009F5556 /* Base */,
 			);
 			name = MainMenu.xib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		4CDB5FAD1D299D26009F5556 /* ScanCombinerWindow.xib */ = {
@@ -227,6 +228,7 @@
 				4CDB5FC21D2B567F009F5556 /* Base */,
 			);
 			name = Localizable.stringsdict;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -319,7 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "Magazine Scan Combiner/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Magazine Scan Combiner/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quantumlenscap.Magazine-Scan-Combiner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -331,7 +333,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "Magazine Scan Combiner/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Magazine Scan Combiner/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quantumlenscap.Magazine-Scan-Combiner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
