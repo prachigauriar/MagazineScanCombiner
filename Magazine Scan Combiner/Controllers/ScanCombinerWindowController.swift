@@ -15,10 +15,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
     @IBOutlet var reversedBackPagesFileDropImageView: FileDropImageView!
     @IBOutlet var reversedBackPagesFilePathField: NSTextField!
     @IBOutlet var combinePDFsButton: NSButton!
-
-    lazy var progressSheetController: ProgressSheetController = {
-        ProgressSheetController()
-    }()
+    let progressSheetController = ProgressSheetController()
 
     var frontPagesURL: NSURL? {
         didSet {
@@ -30,6 +27,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         }
     }
 
+    
     var reversedBackPagesURL: NSURL? {
         didSet {
             if let URL = reversedBackPagesURL {
@@ -39,6 +37,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
             updateCombinePDFsButtonEnabled()
         }
     }
+
 
     override var windowNibName: String? {
         return "ScanCombinerWindow"
@@ -143,6 +142,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
 
         field.stringValue = path.stringByAbbreviatingWithTildeInPath
     }
+
 
     private func updateCombinePDFsButtonEnabled() {
         combinePDFsButton.enabled = frontPagesURL != nil && reversedBackPagesURL != nil

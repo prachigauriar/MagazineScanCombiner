@@ -51,6 +51,7 @@ class ScanCombiner {
         return progress
     }
 
+
     private func PDFDocumentWithURL(inputURL: NSURL) throws -> CGPDFDocument {
         guard let document = CGPDFDocumentCreateWithURL(inputURL) else {
             throw Error.CouldNotOpenInputPDF(inputURL)
@@ -98,6 +99,7 @@ struct PDFDocumentPageGenerator: GeneratorType {
         self.document = document
         pageGenerator = pages.generate()
     }
+
 
     mutating func next() -> CGPDFPage? {
         guard let pageNumber = pageGenerator.next() else {
