@@ -16,11 +16,11 @@ class ScanCombiner {
     }
 
     
-    lazy var operationQueue: NSOperationQueue = {
-        let operationQueue = NSOperationQueue()
+    private let operationQueue: NSOperationQueue = NSOperationQueue()
+
+    init() {
         operationQueue.name = String(format: "ScanCombiner.\(unsafeAddressOf(self))")
-        return operationQueue
-    }()
+    }
 
 
     func combineScansWithFrontPagesPDFURL(frontURL: NSURL, reversedBackPagesPDFURL backURL: NSURL, outputURL: NSURL) throws -> NSProgress {
@@ -92,8 +92,8 @@ struct ScannedPagesGenerator: GeneratorType {
 
 
 struct PDFDocumentPageGenerator: GeneratorType {
-    let document: CGPDFDocument
-    var pageGenerator: IndexingGenerator<[Int]>
+    private let document: CGPDFDocument
+    private var pageGenerator: IndexingGenerator<[Int]>
 
     init(document: CGPDFDocument, pages: [Int]) {
         self.document = document

@@ -43,7 +43,7 @@ class FileDropImageView: NSImageView {
 
     // MARK: - Drag Handling
 
-    func fileURLForDraggingInfo(draggingInfo: NSDraggingInfo) -> NSURL? {
+    private func fileURLForDraggingInfo(draggingInfo: NSDraggingInfo) -> NSURL? {
         guard draggingInfo.draggingPasteboard().pasteboardItems?.count == 1,
             let fileURL = NSURL.init(fromPasteboard: draggingInfo.draggingPasteboard()) where fileURL.fileURL else {
                 return nil
@@ -57,7 +57,7 @@ class FileDropImageView: NSImageView {
     }
 
 
-    func iconForFileURL(fileURL: NSURL) -> NSImage? {
+    private func iconForFileURL(fileURL: NSURL) -> NSImage? {
         guard let filePath = fileURL.path else {
             return nil
         }

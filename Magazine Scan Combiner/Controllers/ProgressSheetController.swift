@@ -17,6 +17,12 @@ class ProgressSheetController: NSWindowController {
     }
 
 
+    override func windowDidLoad() {
+        super.windowDidLoad()
+        messageLabel.stringValue = ""
+    }
+
+
     func updateWithProgress(progress: NSProgress, localizedMessageKey: String) {
         let formatString = NSLocalizedString(localizedMessageKey, comment: "")
         let message = String.localizedStringWithFormat(formatString, progress.completedUnitCount + 1, progress.totalUnitCount)
