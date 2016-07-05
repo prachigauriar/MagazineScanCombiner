@@ -10,11 +10,13 @@
 		4CDB5F991D299CEB009F5556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F981D299CEB009F5556 /* Assets.xcassets */; };
 		4CDB5F9C1D299CEB009F5556 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */; };
 		4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FA41D299D07009F5556 /* AppDelegate.swift */; };
-		4CDB5FA81D299D07009F5556 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5FA51D299D07009F5556 /* Localizable.strings */; };
 		4CDB5FAB1D299D26009F5556 /* ScanCombinerWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5FAD1D299D26009F5556 /* ScanCombinerWindow.xib */; };
 		4CDB5FB71D299D59009F5556 /* ScanCombinerWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB21D299D59009F5556 /* ScanCombinerWindowController.swift */; };
 		4CDB5FB81D299D59009F5556 /* ScanCombiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB41D299D59009F5556 /* ScanCombiner.swift */; };
 		4CDB5FB91D299D59009F5556 /* FileDropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB61D299D59009F5556 /* FileDropImageView.swift */; };
+		4CDB5FBC1D2B4F80009F5556 /* ProgressSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FBA1D2B4F80009F5556 /* ProgressSheetController.swift */; };
+		4CDB5FBE1D2B4F91009F5556 /* ProgressSheetWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5FC01D2B4F91009F5556 /* ProgressSheetWindow.xib */; };
+		4CDB5FC31D2B567F009F5556 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5FC11D2B567F009F5556 /* Localizable.stringsdict */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,11 +25,13 @@
 		4CDB5F9B1D299CEB009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		4CDB5F9D1D299CEB009F5556 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CDB5FA41D299D07009F5556 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4CDB5FA61D299D07009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4CDB5FAC1D299D26009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ScanCombinerWindow.xib; sourceTree = "<group>"; };
 		4CDB5FB21D299D59009F5556 /* ScanCombinerWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCombinerWindowController.swift; sourceTree = "<group>"; };
 		4CDB5FB41D299D59009F5556 /* ScanCombiner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCombiner.swift; sourceTree = "<group>"; };
 		4CDB5FB61D299D59009F5556 /* FileDropImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDropImageView.swift; sourceTree = "<group>"; };
+		4CDB5FBA1D2B4F80009F5556 /* ProgressSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSheetController.swift; sourceTree = "<group>"; };
+		4CDB5FBF1D2B4F91009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProgressSheetWindow.xib; sourceTree = "<group>"; };
+		4CDB5FC21D2B567F009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +70,6 @@
 				4CDB5FB51D299D59009F5556 /* Views */,
 				4CDB5F981D299CEB009F5556 /* Assets.xcassets */,
 				4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */,
-				4CDB5FAD1D299D26009F5556 /* ScanCombinerWindow.xib */,
 				4CDB5F9D1D299CEB009F5556 /* Info.plist */,
 			);
 			path = "Magazine Scan Combiner";
@@ -76,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				4CDB5FA41D299D07009F5556 /* AppDelegate.swift */,
-				4CDB5FA51D299D07009F5556 /* Localizable.strings */,
+				4CDB5FC11D2B567F009F5556 /* Localizable.stringsdict */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -85,6 +88,9 @@
 			isa = PBXGroup;
 			children = (
 				4CDB5FB21D299D59009F5556 /* ScanCombinerWindowController.swift */,
+				4CDB5FAD1D299D26009F5556 /* ScanCombinerWindow.xib */,
+				4CDB5FBA1D2B4F80009F5556 /* ProgressSheetController.swift */,
+				4CDB5FC01D2B4F91009F5556 /* ProgressSheetWindow.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -164,9 +170,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CDB5F991D299CEB009F5556 /* Assets.xcassets in Resources */,
-				4CDB5FA81D299D07009F5556 /* Localizable.strings in Resources */,
+				4CDB5FBE1D2B4F91009F5556 /* ProgressSheetWindow.xib in Resources */,
 				4CDB5F9C1D299CEB009F5556 /* MainMenu.xib in Resources */,
 				4CDB5FAB1D299D26009F5556 /* ScanCombinerWindow.xib in Resources */,
+				4CDB5FC31D2B567F009F5556 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CDB5FBC1D2B4F80009F5556 /* ProgressSheetController.swift in Sources */,
 				4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */,
 				4CDB5FB91D299D59009F5556 /* FileDropImageView.swift in Sources */,
 				4CDB5FB81D299D59009F5556 /* ScanCombiner.swift in Sources */,
@@ -195,20 +203,30 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		4CDB5FA51D299D07009F5556 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CDB5FA61D299D07009F5556 /* Base */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		4CDB5FAD1D299D26009F5556 /* ScanCombinerWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				4CDB5FAC1D299D26009F5556 /* Base */,
 			);
 			name = ScanCombinerWindow.xib;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		4CDB5FC01D2B4F91009F5556 /* ProgressSheetWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CDB5FBF1D2B4F91009F5556 /* Base */,
+			);
+			name = ProgressSheetWindow.xib;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		4CDB5FC11D2B567F009F5556 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CDB5FC21D2B567F009F5556 /* Base */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -339,6 +357,7 @@
 				4CDB5FA21D299CEB009F5556 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

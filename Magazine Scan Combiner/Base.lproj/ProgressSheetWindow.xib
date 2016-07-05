@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ProgressSheetController" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
+            <connections>
+                <outlet property="messageLabel" destination="myq-Wb-F4M" id="ocV-41-UBj"/>
+                <outlet property="progressIndicator" destination="KeC-Hh-KEh" id="ofa-zz-wSA"/>
+                <outlet property="window" destination="5eA-pL-nUk" id="pWh-iT-IFY"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="5eA-pL-nUk" userLabel="Progress Sheet">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="163" y="199" width="480" height="83"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <view key="contentView" id="nl1-Cy-k1I">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="83"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="KeC-Hh-KEh">
+                        <rect key="frame" x="20" y="44" width="440" height="20"/>
+                    </progressIndicator>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="myq-Wb-F4M">
+                        <rect key="frame" x="18" y="20" width="444" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="flV-0I-shB">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="KeC-Hh-KEh" secondAttribute="trailing" constant="20" symbolic="YES" id="Q7K-Tr-g9r"/>
+                    <constraint firstItem="KeC-Hh-KEh" firstAttribute="leading" secondItem="nl1-Cy-k1I" secondAttribute="leading" constant="20" symbolic="YES" id="W6j-7m-bf1"/>
+                    <constraint firstItem="myq-Wb-F4M" firstAttribute="top" secondItem="KeC-Hh-KEh" secondAttribute="bottom" constant="8" symbolic="YES" id="dYX-cN-xyf"/>
+                    <constraint firstAttribute="bottom" secondItem="myq-Wb-F4M" secondAttribute="bottom" constant="20" symbolic="YES" id="fqJ-18-r92"/>
+                    <constraint firstItem="KeC-Hh-KEh" firstAttribute="top" secondItem="nl1-Cy-k1I" secondAttribute="top" constant="20" symbolic="YES" id="jZJ-Xe-ejb"/>
+                    <constraint firstItem="myq-Wb-F4M" firstAttribute="leading" secondItem="KeC-Hh-KEh" secondAttribute="leading" id="nHv-hZ-tWx"/>
+                    <constraint firstItem="myq-Wb-F4M" firstAttribute="trailing" secondItem="KeC-Hh-KEh" secondAttribute="trailing" id="qGa-QG-bJ6"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="415" y="216.5"/>
+        </window>
+    </objects>
+</document>

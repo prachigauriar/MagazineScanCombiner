@@ -16,6 +16,10 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
     @IBOutlet var reversedBackPagesFilePathField: NSTextField!
     @IBOutlet var combinePDFsButton: NSButton!
 
+    lazy var progressSheetController: ProgressSheetController = {
+        ProgressSheetController()
+    }()
+
     var frontPagesURL: NSURL? {
         didSet {
             if let URL = frontPagesURL {
@@ -79,13 +83,37 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
 
         let scanCombiner = ScanCombiner()
         do {
-            let _ = try scanCombiner.combineScansWithFrontPagesPDFURL(frontPagesURL, reversedBackPagesPDFURL: reversedBackPagesURL, outputURL: outputURL)
+            let progress = try scanCombiner.combineScansWithFrontPagesPDFURL(frontPagesURL,
+                                                                             reversedBackPagesPDFURL: reversedBackPagesURL,
+                                                                             outputURL: outputURL)
+
+            progress.addObserver(self, forKeyPath: "fractionCompleted", options: .Initial, context: nil)
+
+            self.window?.beginSheet(progressSheetController.window!, completionHandler: { _ in
+                progress.removeObserver(self, forKeyPath: "fractionCompleted")
+                NSWorkspace.sharedWorkspace().activateFileViewerSelectingURLs([outputURL])
+            })
         } catch ScanCombiner.Error.CouldNotOpenInputPDF {
             print("Could not open input PDF")
         } catch ScanCombiner.Error.CouldNotCreateOutputPDF {
             print("Could not create output PDF")
         } catch {
             print("Something else went wrong")
+        }
+    }
+
+
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        guard let progress = object as? NSProgress, let progressSheet = progressSheetController.window else {
+            return
+        }
+
+        NSOperationQueue.mainQueue().addOperationWithBlock { [unowned self] in
+            if progress.completedUnitCount < progress.totalUnitCount {
+                self.progressSheetController.updateWithProgress(progress, localizedMessageKey: "CombineProgress.Format")
+            } else {
+                self.window?.endSheet(progressSheet)
+            }
         }
     }
 

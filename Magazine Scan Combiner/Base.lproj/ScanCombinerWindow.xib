@@ -86,38 +86,5 @@
             </view>
             <point key="canvasLocation" x="324.5" y="313.5"/>
         </window>
-        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="6yu-Rq-2zC" userLabel="Progress Sheet">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="163" y="199" width="480" height="83"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-            <view key="contentView" id="Vt9-GB-1i4">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="83"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="2DM-PU-Emr">
-                        <rect key="frame" x="20" y="44" width="440" height="20"/>
-                    </progressIndicator>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cS5-6e-cS3">
-                        <rect key="frame" x="18" y="20" width="444" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Reversing %1$@ of %2$@ pages." id="tbM-OZ-Hjq">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                </subviews>
-                <constraints>
-                    <constraint firstAttribute="trailing" secondItem="2DM-PU-Emr" secondAttribute="trailing" constant="20" symbolic="YES" id="2nn-ya-kT3"/>
-                    <constraint firstItem="2DM-PU-Emr" firstAttribute="top" secondItem="Vt9-GB-1i4" secondAttribute="top" constant="20" symbolic="YES" id="9Bo-aK-9xc"/>
-                    <constraint firstItem="cS5-6e-cS3" firstAttribute="top" secondItem="2DM-PU-Emr" secondAttribute="bottom" constant="8" symbolic="YES" id="FWM-29-PXB"/>
-                    <constraint firstItem="cS5-6e-cS3" firstAttribute="leading" secondItem="2DM-PU-Emr" secondAttribute="leading" id="Ud2-4l-YFQ"/>
-                    <constraint firstAttribute="bottom" secondItem="cS5-6e-cS3" secondAttribute="bottom" constant="20" symbolic="YES" id="l1q-LH-YVl"/>
-                    <constraint firstItem="cS5-6e-cS3" firstAttribute="trailing" secondItem="2DM-PU-Emr" secondAttribute="trailing" id="rd6-OE-yc4"/>
-                    <constraint firstItem="2DM-PU-Emr" firstAttribute="leading" secondItem="Vt9-GB-1i4" secondAttribute="leading" constant="20" symbolic="YES" id="zPp-o8-9FG"/>
-                </constraints>
-            </view>
-            <point key="canvasLocation" x="422" y="-34.5"/>
-        </window>
     </objects>
 </document>

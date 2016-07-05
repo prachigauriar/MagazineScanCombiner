@@ -30,29 +30,25 @@ class ScanCombiner {
             throw Error.CouldNotCreateOutputPDF
         }
 
-        // Go ahead and defer closing this so we don’t forget later
-        defer { CGPDFContextClose(outputContext) }
+        let pageCount = CGPDFDocumentGetNumberOfPages(frontPagesDocument) + CGPDFDocumentGetNumberOfPages(reversedBackPagesDocument)
+        let progress = NSProgress(totalUnitCount: Int64(pageCount))
 
         var pageGenerator = ScannedPagesGenerator(frontPagesDocument: frontPagesDocument, reversedBackPagesDocument: reversedBackPagesDocument)
-        while let page = pageGenerator.next() {
-            // Start a new page in our output, get the contents of the page from our input, write that page to our output
-            var mediaBox = CGPDFPageGetBoxRect(page, .MediaBox)
-            CGContextBeginPage(outputContext, &mediaBox)
-            CGContextDrawPDFPage(outputContext, page)
-            CGContextEndPage(outputContext)
+
+        operationQueue.addOperationWithBlock {
+            while let page = pageGenerator.next() {
+                // Start a new page in our output, get the contents of the page from our input, write that page to our output
+                var mediaBox = CGPDFPageGetBoxRect(page, .MediaBox)
+                CGContextBeginPage(outputContext, &mediaBox)
+                CGContextDrawPDFPage(outputContext, page)
+                CGContextEndPage(outputContext)
+                progress.completedUnitCount += 1
+            }
+
+            CGPDFContextClose(outputContext)
         }
 
-        // TODO: Use the operation queue and progress object to do this asynchronously
-//        // We’ll use this NSProgress object to let the caller know how many pages we’ve reversed
-//        let pageCount = CGPDFDocumentGetNumberOfPages(frontPagesDocument)
-//        let progress = NSProgress(totalUnitCount: Int64(pageCount))
-//
-//        // Do the reversal in the background
-//        operationQueue.addOperationWithBlock {
-//        }
-//
-//        return progress
-        return NSProgress()
+        return progress
     }
 
     private func PDFDocumentWithURL(inputURL: NSURL) throws -> CGPDFDocument {
