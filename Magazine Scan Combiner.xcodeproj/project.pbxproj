@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C02D5B91D2C90750096DA2B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02D5B81D2C90750096DA2B /* main.swift */; };
+		4C02D5BD1D2C90820096DA2B /* ScanCombiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB41D299D59009F5556 /* ScanCombiner.swift */; };
+		4C02D5BF1D2C91E50096DA2B /* CommandLineHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02D5BE1D2C91E50096DA2B /* CommandLineHelpers.swift */; };
+		4C1C01D61D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01D51D2C9D0C009ED1AF /* String+TildeExpansion.swift */; };
+		4C1C01D71D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01D51D2C9D0C009ED1AF /* String+TildeExpansion.swift */; };
+		4C1C01DD1D2CB103009ED1AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C1C01DC1D2CB103009ED1AF /* Localizable.strings */; };
+		4C1C01E01D2CB147009ED1AF /* Back.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C1C01DE1D2CB147009ED1AF /* Back.pdf */; };
+		4C1C01E11D2CB147009ED1AF /* Front.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C1C01DF1D2CB147009ED1AF /* Front.pdf */; };
 		4CDB5F991D299CEB009F5556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F981D299CEB009F5556 /* Assets.xcassets */; };
 		4CDB5F9C1D299CEB009F5556 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */; };
 		4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FA41D299D07009F5556 /* AppDelegate.swift */; };
@@ -16,10 +24,28 @@
 		4CDB5FB91D299D59009F5556 /* FileDropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB61D299D59009F5556 /* FileDropImageView.swift */; };
 		4CDB5FBC1D2B4F80009F5556 /* ProgressSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FBA1D2B4F80009F5556 /* ProgressSheetController.swift */; };
 		4CDB5FBE1D2B4F91009F5556 /* ProgressSheetWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5FC01D2B4F91009F5556 /* ProgressSheetWindow.xib */; };
-		4CDB5FC31D2B567F009F5556 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5FC11D2B567F009F5556 /* Localizable.stringsdict */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4C02D5B41D2C90750096DA2B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		4C02D5B61D2C90750096DA2B /* scancombine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = scancombine; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C02D5B81D2C90750096DA2B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4C02D5BE1D2C91E50096DA2B /* CommandLineHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLineHelpers.swift; sourceTree = "<group>"; };
+		4C1C01D51D2C9D0C009ED1AF /* String+TildeExpansion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+TildeExpansion.swift"; sourceTree = "<group>"; };
+		4C1C01DC1D2CB103009ED1AF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		4C1C01DE1D2CB147009ED1AF /* Back.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Back.pdf; sourceTree = "<group>"; };
+		4C1C01DF1D2CB147009ED1AF /* Front.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Front.pdf; sourceTree = "<group>"; };
 		4CDB5F931D299CEB009F5556 /* Magazine Scan Combiner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magazine Scan Combiner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDB5F981D299CEB009F5556 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CDB5F9B1D299CEB009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -31,10 +57,16 @@
 		4CDB5FB61D299D59009F5556 /* FileDropImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDropImageView.swift; sourceTree = "<group>"; };
 		4CDB5FBA1D2B4F80009F5556 /* ProgressSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSheetController.swift; sourceTree = "<group>"; };
 		4CDB5FBF1D2B4F91009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProgressSheetWindow.xib; sourceTree = "<group>"; };
-		4CDB5FC21D2B567F009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Base; path = Base.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4C02D5B31D2C90750096DA2B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4CDB5F901D299CEB009F5556 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -45,10 +77,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C02D5B71D2C90750096DA2B /* scancombine */ = {
+			isa = PBXGroup;
+			children = (
+				4C02D5B81D2C90750096DA2B /* main.swift */,
+				4C02D5BE1D2C91E50096DA2B /* CommandLineHelpers.swift */,
+			);
+			path = scancombine;
+			sourceTree = "<group>";
+		};
+		4C1C01D41D2C9CE1009ED1AF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4C1C01D51D2C9D0C009ED1AF /* String+TildeExpansion.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4C1C01DB1D2CA8A3009ED1AF /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				4C1C01DF1D2CB147009ED1AF /* Front.pdf */,
+				4C1C01DE1D2CB147009ED1AF /* Back.pdf */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		4CDB5F8A1D299CEB009F5556 = {
 			isa = PBXGroup;
 			children = (
 				4CDB5F951D299CEB009F5556 /* Magazine Scan Combiner */,
+				4C02D5B71D2C90750096DA2B /* scancombine */,
+				4C1C01DB1D2CA8A3009ED1AF /* Tests */,
 				4CDB5F941D299CEB009F5556 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -57,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				4CDB5F931D299CEB009F5556 /* Magazine Scan Combiner.app */,
+				4C02D5B61D2C90750096DA2B /* scancombine */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				4CDB5FA31D299D07009F5556 /* Application */,
+				4C1C01D41D2C9CE1009ED1AF /* Extensions */,
 				4CDB5FB31D299D59009F5556 /* Models */,
 				4CDB5FB11D299D59009F5556 /* Controllers */,
 				4CDB5FB51D299D59009F5556 /* Views */,
@@ -79,7 +141,7 @@
 				4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */,
 				4CDB5F981D299CEB009F5556 /* Assets.xcassets */,
 				4CDB5F9D1D299CEB009F5556 /* Info.plist */,
-				4CDB5FC11D2B567F009F5556 /* Localizable.stringsdict */,
+				4C1C01DC1D2CB103009ED1AF /* Localizable.strings */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -114,6 +176,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4C02D5B51D2C90750096DA2B /* scancombine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C02D5BC1D2C90750096DA2B /* Build configuration list for PBXNativeTarget "scancombine" */;
+			buildPhases = (
+				4C02D5B21D2C90750096DA2B /* Sources */,
+				4C02D5B31D2C90750096DA2B /* Frameworks */,
+				4C02D5B41D2C90750096DA2B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = scancombine;
+			productName = scancombine;
+			productReference = 4C02D5B61D2C90750096DA2B /* scancombine */;
+			productType = "com.apple.product-type.tool";
+		};
 		4CDB5F921D299CEB009F5556 /* Magazine Scan Combiner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4CDB5FA01D299CEB009F5556 /* Build configuration list for PBXNativeTarget "Magazine Scan Combiner" */;
@@ -141,6 +220,9 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Quantum Lens Cap";
 				TargetAttributes = {
+					4C02D5B51D2C90750096DA2B = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					4CDB5F921D299CEB009F5556 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -160,6 +242,7 @@
 			projectRoot = "";
 			targets = (
 				4CDB5F921D299CEB009F5556 /* Magazine Scan Combiner */,
+				4C02D5B51D2C90750096DA2B /* scancombine */,
 			);
 		};
 /* End PBXProject section */
@@ -169,22 +252,36 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C1C01DD1D2CB103009ED1AF /* Localizable.strings in Resources */,
+				4C1C01E11D2CB147009ED1AF /* Front.pdf in Resources */,
 				4CDB5F991D299CEB009F5556 /* Assets.xcassets in Resources */,
 				4CDB5FBE1D2B4F91009F5556 /* ProgressSheetWindow.xib in Resources */,
+				4C1C01E01D2CB147009ED1AF /* Back.pdf in Resources */,
 				4CDB5F9C1D299CEB009F5556 /* MainMenu.xib in Resources */,
 				4CDB5FAB1D299D26009F5556 /* ScanCombinerWindow.xib in Resources */,
-				4CDB5FC31D2B567F009F5556 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4C02D5B21D2C90750096DA2B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C02D5B91D2C90750096DA2B /* main.swift in Sources */,
+				4C02D5BF1D2C91E50096DA2B /* CommandLineHelpers.swift in Sources */,
+				4C02D5BD1D2C90820096DA2B /* ScanCombiner.swift in Sources */,
+				4C1C01D71D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4CDB5F8F1D299CEB009F5556 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4CDB5FBC1D2B4F80009F5556 /* ProgressSheetController.swift in Sources */,
+				4C1C01D61D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */,
 				4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */,
 				4CDB5FB91D299D59009F5556 /* FileDropImageView.swift in Sources */,
 				4CDB5FB81D299D59009F5556 /* ScanCombiner.swift in Sources */,
@@ -222,18 +319,23 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		4CDB5FC11D2B567F009F5556 /* Localizable.stringsdict */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CDB5FC21D2B567F009F5556 /* Base */,
-			);
-			name = Localizable.stringsdict;
-			path = ..;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4C02D5BA1D2C90750096DA2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4C02D5BB1D2C90750096DA2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		4CDB5F9E1D299CEB009F5556 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -343,6 +445,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4C02D5BC1D2C90750096DA2B /* Build configuration list for PBXNativeTarget "scancombine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C02D5BA1D2C90750096DA2B /* Debug */,
+				4C02D5BB1D2C90750096DA2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4CDB5F8E1D299CEB009F5556 /* Build configuration list for PBXProject "Magazine Scan Combiner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

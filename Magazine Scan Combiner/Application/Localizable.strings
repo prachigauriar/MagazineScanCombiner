@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  Magazine Scan Combiner
+
+  Created by Prachi Gauriar on 7/5/2016.
+  Copyright © 2016 Quantum Lens Cap. All rights reserved.
+*/
+
+"CombineProgress.Format" = "Processing page %1$d of %2$d…";

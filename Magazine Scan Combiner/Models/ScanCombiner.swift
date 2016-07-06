@@ -16,7 +16,7 @@ class ScanCombiner {
     }
 
     
-    private let operationQueue: NSOperationQueue = NSOperationQueue()
+    let operationQueue: NSOperationQueue = NSOperationQueue()
 
     init() {
         operationQueue.name = String(format: "ScanCombiner.\(unsafeAddressOf(self))")
