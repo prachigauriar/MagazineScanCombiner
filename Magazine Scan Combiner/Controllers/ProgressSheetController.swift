@@ -41,16 +41,7 @@ class ProgressSheetController: NSWindowController {
 
     // MARK: - Progress properties
 
-    private var needsProgressUpdate: Bool = false
-    private let progressUpdateInterval: NSTimeInterval = 1 / 60
     private var progressObserver: KeyValueObserver<NSProgress>?
-
-    private var progressUpdateTimer: NSTimer? {
-        willSet {
-            // Invalidate any previous timers whenever the update timer is about to be set
-            progressUpdateTimer?.invalidate()
-        }
-    }
 
     var progress: NSProgress? {
         didSet {
@@ -59,21 +50,26 @@ class ProgressSheetController: NSWindowController {
                 progressObserver = KeyValueObserver(object: progress, keyPath: "completedUnitCount") { [unowned self] _ in
                     self.needsProgressUpdate = true
                 }
+            } else {
+                // Stop observing progress
+                progressObserver = nil
+            }
+        }
+    }
 
+    private let progressUpdateInterval: NSTimeInterval = 1 / 60
+    private var progressUpdateTimer: NSTimer?
+    private var needsProgressUpdate: Bool = false {
+        didSet {
+            if !(progressUpdateTimer?.valid ?? false) {
                 // Schedule the update timer
                 let updateTimer = NSTimer.init(timeInterval: progressUpdateInterval,
                                                target: self,
                                                selector: #selector(updateProgressWithTimer(_:)),
                                                userInfo: nil,
-                                               repeats: true)
+                                               repeats: false)
                 self.progressUpdateTimer = updateTimer
                 NSRunLoop.mainRunLoop().addTimer(updateTimer, forMode: NSRunLoopCommonModes)
-            } else {
-                // Stop observing progress
-                progressObserver = nil
-
-                // Get rid of our update timer
-                progressUpdateTimer = nil
             }
         }
     }
@@ -104,12 +100,20 @@ class ProgressSheetController: NSWindowController {
     // MARK: - Updating the progress UI
 
     func updateProgressWithTimer(timer: NSTimer) {
+        progressUpdateTimer = nil
+        updateProgress()
+    }
+
+
+    func updateProgress() {
         guard needsProgressUpdate,
             let window = window where window.visible,
             let localizedProgressMessageKey = localizedProgressMesageKey,
             let progress = progress where progress.completedUnitCount < progress.totalUnitCount else {
                 return
         }
+
+        needsProgressUpdate = false
 
         let formatString = NSLocalizedString(localizedProgressMessageKey, comment: "")
         let message = String.localizedStringWithFormat(formatString, progress.completedUnitCount + 1, progress.totalUnitCount)

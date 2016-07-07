@@ -36,8 +36,6 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
     @IBOutlet var reversedBackPagesFilePathField: NSTextField!
     @IBOutlet var combinePDFsButton: NSButton!
 
-    private let progressSheetController = ProgressSheetController()
-
 
     // MARK: - User input properties
 
@@ -119,16 +117,17 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         // Create the combine scan operation with our input and output PDF URLs
         let operation = CombineScansOperation(frontPagesPDFURL: frontPagesURL, reversedBackPagesPDFURL: reversedBackPagesURL, outputPDFURL: outputURL)
 
-        // Set up a Key-Value Observer to observe the completedUnitCount
-        self.progressSheetController.progress = operation.progress
-        self.progressSheetController.localizedProgressMesageKey = "CombineProgress.Format"
+        // Set up a progress sheet controller so we can show a progress sheet
+        let progressSheetController = ProgressSheetController()
+        progressSheetController.progress = operation.progress
+        progressSheetController.localizedProgressMesageKey = "CombineProgress.Format"
 
         // Add a completion block that hides the progress sheet when the operation finishes
         operation.completionBlock = { [weak self] in
-            self?.progressSheetController.progress = nil
+            progressSheetController.progress = nil
 
             NSOperationQueue.mainQueue().addOperationWithBlock { [weak self] in
-                guard let progressSheet = self?.progressSheetController.window! else {
+                guard let progressSheet = progressSheetController.window else {
                     return
                 }
 
@@ -137,7 +136,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         }
 
         // Begin showing the progress sheet. On dismiss, either show an error or show the resultant PDF file
-        self.window?.beginSheet(self.progressSheetController.window!, completionHandler: { [unowned self] _ in
+        self.window?.beginSheet(progressSheetController.window!, completionHandler: { [unowned self] _ in
             if let error = operation.error {
                 // If there was an error, show an alert to the user
                 self.showAlertForError(error)
