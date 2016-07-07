@@ -8,19 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		4C02D5B91D2C90750096DA2B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02D5B81D2C90750096DA2B /* main.swift */; };
-		4C02D5BD1D2C90820096DA2B /* ScanCombiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB41D299D59009F5556 /* ScanCombiner.swift */; };
+		4C02D5BD1D2C90820096DA2B /* CombineScansOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB41D299D59009F5556 /* CombineScansOperation.swift */; };
 		4C02D5BF1D2C91E50096DA2B /* CommandLineHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02D5BE1D2C91E50096DA2B /* CommandLineHelpers.swift */; };
 		4C1C01D61D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01D51D2C9D0C009ED1AF /* String+TildeExpansion.swift */; };
 		4C1C01D71D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01D51D2C9D0C009ED1AF /* String+TildeExpansion.swift */; };
 		4C1C01DD1D2CB103009ED1AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C1C01DC1D2CB103009ED1AF /* Localizable.strings */; };
 		4C1C01E01D2CB147009ED1AF /* Back.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C1C01DE1D2CB147009ED1AF /* Back.pdf */; };
 		4C1C01E11D2CB147009ED1AF /* Front.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C1C01DF1D2CB147009ED1AF /* Front.pdf */; };
+		4C1C01E31D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E21D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift */; };
+		4C1C01E41D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E21D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift */; };
+		4C1C01E61D2DED12009ED1AF /* KeyValueObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */; };
+		4C1C01E71D2DED12009ED1AF /* KeyValueObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */; };
 		4CDB5F991D299CEB009F5556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F981D299CEB009F5556 /* Assets.xcassets */; };
 		4CDB5F9C1D299CEB009F5556 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */; };
 		4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FA41D299D07009F5556 /* AppDelegate.swift */; };
 		4CDB5FAB1D299D26009F5556 /* ScanCombinerWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5FAD1D299D26009F5556 /* ScanCombinerWindow.xib */; };
 		4CDB5FB71D299D59009F5556 /* ScanCombinerWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB21D299D59009F5556 /* ScanCombinerWindowController.swift */; };
-		4CDB5FB81D299D59009F5556 /* ScanCombiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB41D299D59009F5556 /* ScanCombiner.swift */; };
+		4CDB5FB81D299D59009F5556 /* CombineScansOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB41D299D59009F5556 /* CombineScansOperation.swift */; };
 		4CDB5FB91D299D59009F5556 /* FileDropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FB61D299D59009F5556 /* FileDropImageView.swift */; };
 		4CDB5FBC1D2B4F80009F5556 /* ProgressSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FBA1D2B4F80009F5556 /* ProgressSheetController.swift */; };
 		4CDB5FBE1D2B4F91009F5556 /* ProgressSheetWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5FC01D2B4F91009F5556 /* ProgressSheetWindow.xib */; };
@@ -46,6 +50,8 @@
 		4C1C01DC1D2CB103009ED1AF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		4C1C01DE1D2CB147009ED1AF /* Back.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Back.pdf; sourceTree = "<group>"; };
 		4C1C01DF1D2CB147009ED1AF /* Front.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Front.pdf; sourceTree = "<group>"; };
+		4C1C01E21D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentProgressReportingOperation.swift; sourceTree = "<group>"; };
+		4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueObserver.swift; sourceTree = "<group>"; };
 		4CDB5F931D299CEB009F5556 /* Magazine Scan Combiner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magazine Scan Combiner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDB5F981D299CEB009F5556 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CDB5F9B1D299CEB009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -53,7 +59,7 @@
 		4CDB5FA41D299D07009F5556 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CDB5FAC1D299D26009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ScanCombinerWindow.xib; sourceTree = "<group>"; };
 		4CDB5FB21D299D59009F5556 /* ScanCombinerWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCombinerWindowController.swift; sourceTree = "<group>"; };
-		4CDB5FB41D299D59009F5556 /* ScanCombiner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCombiner.swift; sourceTree = "<group>"; };
+		4CDB5FB41D299D59009F5556 /* CombineScansOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineScansOperation.swift; sourceTree = "<group>"; };
 		4CDB5FB61D299D59009F5556 /* FileDropImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDropImageView.swift; sourceTree = "<group>"; };
 		4CDB5FBA1D2B4F80009F5556 /* ProgressSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSheetController.swift; sourceTree = "<group>"; };
 		4CDB5FBF1D2B4F91009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProgressSheetWindow.xib; sourceTree = "<group>"; };
@@ -160,7 +166,9 @@
 		4CDB5FB31D299D59009F5556 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4CDB5FB41D299D59009F5556 /* ScanCombiner.swift */,
+				4C1C01E21D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift */,
+				4CDB5FB41D299D59009F5556 /* CombineScansOperation.swift */,
+				4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -271,7 +279,9 @@
 			files = (
 				4C02D5B91D2C90750096DA2B /* main.swift in Sources */,
 				4C02D5BF1D2C91E50096DA2B /* CommandLineHelpers.swift in Sources */,
-				4C02D5BD1D2C90820096DA2B /* ScanCombiner.swift in Sources */,
+				4C1C01E41D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift in Sources */,
+				4C1C01E71D2DED12009ED1AF /* KeyValueObserver.swift in Sources */,
+				4C02D5BD1D2C90820096DA2B /* CombineScansOperation.swift in Sources */,
 				4C1C01D71D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,8 +294,10 @@
 				4C1C01D61D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */,
 				4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */,
 				4CDB5FB91D299D59009F5556 /* FileDropImageView.swift in Sources */,
-				4CDB5FB81D299D59009F5556 /* ScanCombiner.swift in Sources */,
+				4CDB5FB81D299D59009F5556 /* CombineScansOperation.swift in Sources */,
+				4C1C01E31D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift in Sources */,
 				4CDB5FB71D299D59009F5556 /* ScanCombinerWindowController.swift in Sources */,
+				4C1C01E61D2DED12009ED1AF /* KeyValueObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,13 +29,13 @@ func parseCommandLineArguments() -> (frontPagesFileURL: NSURL, reversedBackPages
 
     let frontPagesPath = userArguments[0]
     guard let frontPagesFileURL = validatedFileURLWithPath(frontPagesPath) else {
-        print("Unreachable front pages PDF \(frontPagesPath)", toStream: &standardErrorStream)
+        print("Could not open front pages PDF \(frontPagesPath)", toStream: &standardErrorStream)
         exit(2)
     }
 
     let reversedBackPagesPath = userArguments[1]
     guard let reversedBackPagesFileURL = validatedFileURLWithPath(reversedBackPagesPath) else {
-        print("Unreachable reversed front pages PDF \(reversedBackPagesPath)", toStream: &standardErrorStream)
+        print("Could not open reversed back pages PDF \(reversedBackPagesPath)", toStream: &standardErrorStream)
         exit(2)
     }
 
@@ -45,19 +45,18 @@ func parseCommandLineArguments() -> (frontPagesFileURL: NSURL, reversedBackPages
 }
 
 
-let commandLineArguments = parseCommandLineArguments()
-let scanCombiner = ScanCombiner()
+let (frontPagesPDFURL, reversedBackPagesPDFURL, outputPDFURL) = parseCommandLineArguments()
+let operation = CombineScansOperation(frontPagesPDFURL: frontPagesPDFURL, reversedBackPagesPDFURL: reversedBackPagesPDFURL, outputPDFURL: outputPDFURL)
+operation.start()
 
-do {
-    let progress = try scanCombiner.combineScansWithFrontPagesPDFURL(commandLineArguments.frontPagesFileURL,
-                                                                     reversedBackPagesPDFURL: commandLineArguments.reversedBackPagesFileURL,
-                                                                     outputURL: commandLineArguments.outputFileURL)
+guard let error = operation.error else {
+    print("Successfully combined PDFs and saved output to \(outputPDFURL.path!.stringByAbbreviatingWithTildeInPath).")
+    exit(0)
+}
 
-    scanCombiner.operationQueue.waitUntilAllOperationsAreFinished()
-} catch ScanCombiner.Error.CouldNotOpenInputPDF {
-    print("Could not open input PDF")
-} catch ScanCombiner.Error.CouldNotCreateOutputPDF {
-    print("Could not create output PDF")
-} catch {
-    print("Something else went wrong")
+switch error {
+case let .CouldNotOpenFileURL(fileURL):
+    print("Could not open input PDF \(fileURL.path!.stringByAbbreviatingWithTildeInPath).", toStream: &standardErrorStream)
+case let  .CouldNotCreateOutputPDF(fileURL):
+    print("Could not create output PDF \(fileURL.path!.stringByAbbreviatingWithTildeInPath).", toStream: &standardErrorStream)
 }

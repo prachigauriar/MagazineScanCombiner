@@ -11,6 +11,26 @@ import Cocoa
 class ProgressSheetController: NSWindowController {
     @IBOutlet var progressIndicator: NSProgressIndicator!
     @IBOutlet var messageLabel: NSTextField!
+    @IBOutlet var cancelButton: NSButton!
+
+    var localizedMesageKey: String?
+
+    var progress: NSProgress? {
+        didSet {
+            if let progress = progress {
+                progressObserver = KeyValueObserver(object: progress, keyPath: "completedUnitCount", observeBlock: { [unowned self] (progress) in
+                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                        self.updateWithProgressChange()
+                    }
+                })
+            } else {
+                progressObserver = nil
+            }
+        }
+    }
+
+    private var progressObserver: KeyValueObserver<NSProgress>?
+
 
     override var windowNibName: String? {
         return "ProgressSheetWindow"
@@ -23,11 +43,22 @@ class ProgressSheetController: NSWindowController {
     }
 
 
-    func updateWithProgress(progress: NSProgress, localizedMessageKey: String) {
+    func updateWithProgressChange() {
+        guard let progress = progress, localizedMessageKey = localizedMesageKey else {
+            return
+        }
+
         let formatString = NSLocalizedString(localizedMessageKey, comment: "")
         let message = String.localizedStringWithFormat(formatString, progress.completedUnitCount + 1, progress.totalUnitCount)
 
-        self.messageLabel.stringValue = message
-        self.progressIndicator.doubleValue = 100 * progress.fractionCompleted
+        messageLabel.stringValue = message
+        progressIndicator.doubleValue = 100 * progress.fractionCompleted
+    }
+
+
+    @IBAction func cancel(sender: NSButton) {
+        if let progress = progress  {
+            progress.cancel()
+        }
     }
 }

@@ -10,11 +10,14 @@ import Cocoa
 
 
 class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegate {
+    // MARK: - User Interface properties
+
     @IBOutlet var frontPagesFileDropImageView: FileDropImageView!
     @IBOutlet var frontPagesFilePathField: NSTextField!
     @IBOutlet var reversedBackPagesFileDropImageView: FileDropImageView!
     @IBOutlet var reversedBackPagesFilePathField: NSTextField!
     @IBOutlet var combinePDFsButton: NSButton!
+
     private let progressSheetController = ProgressSheetController()
 
     var frontPagesURL: NSURL? {
@@ -27,7 +30,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         }
     }
 
-    
+
     var reversedBackPagesURL: NSURL? {
         didSet {
             if let URL = reversedBackPagesURL {
@@ -38,6 +41,16 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         }
     }
 
+    // MARK: - Model properties
+
+    lazy var operationQueue: NSOperationQueue = {
+        let operationQueue = NSOperationQueue()
+        operationQueue.name = "\(self.dynamicType).\(unsafeAddressOf(self))"
+        return operationQueue
+    }()
+
+
+    // MARK: - NSWindowController subclass overrides
 
     override var windowNibName: String? {
         return "ScanCombinerWindow"
@@ -52,7 +65,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
     }
 
 
-    // MARK: - Action Methods
+    // MARK: - Action methods
 
     @IBAction func combinePDFs(sender: NSButton) {
         guard let directory = frontPagesURL?.URLByDeletingLastPathComponent else {
@@ -81,40 +94,60 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
             return
         }
 
-        let scanCombiner = ScanCombiner()
-        do {
-            let progress = try scanCombiner.combineScansWithFrontPagesPDFURL(frontPagesURL,
-                                                                             reversedBackPagesPDFURL: reversedBackPagesURL,
-                                                                             outputURL: outputURL)
+        // Create the combine scan operation with our input and output PDF URLs
+        let operation = CombineScansOperation(frontPagesPDFURL: frontPagesURL, reversedBackPagesPDFURL: reversedBackPagesURL, outputPDFURL: outputURL)
 
-            progress.addObserver(self, forKeyPath: "fractionCompleted", options: .Initial, context: nil)
+        // Set up a Key-Value Observer to observe the completedUnitCount
+        self.progressSheetController.progress = operation.progress
+        self.progressSheetController.localizedMesageKey = "CombineProgress.Format"
 
-            self.window?.beginSheet(progressSheetController.window!, completionHandler: { _ in
-                progress.removeObserver(self, forKeyPath: "fractionCompleted")
-                NSWorkspace.sharedWorkspace().activateFileViewerSelectingURLs([outputURL])
-            })
-        } catch ScanCombiner.Error.CouldNotOpenInputPDF {
-            print("Could not open input PDF")
-        } catch ScanCombiner.Error.CouldNotCreateOutputPDF {
-            print("Could not create output PDF")
-        } catch {
-            print("Something else went wrong")
+        // Add a completion block that hides the progress sheet when the operation finishes
+        operation.completionBlock = { [weak self] in
+            self?.progressSheetController.progress = nil
+
+            NSOperationQueue.mainQueue().addOperationWithBlock { [weak self] in
+                guard let progressSheet = self?.progressSheetController.window! else {
+                    return
+                }
+
+                self?.window?.endSheet(progressSheet)
+            }
         }
+
+        // Begin showing the progress sheet. On dismiss, either show an error or show the resultant PDF file
+        self.window?.beginSheet(self.progressSheetController.window!, completionHandler: { [unowned self] _ in
+            if let error = operation.error {
+                // If there was an error, show an alert to the user
+                self.showAlertForError(error)
+            } else if !operation.cancelled {
+                // Otherwise show the resultant PDF in the Finder if it wasn’t canceled
+                NSWorkspace.sharedWorkspace().activateFileViewerSelectingURLs([outputURL])
+            }
+        })
+
+        self.operationQueue.addOperation(operation)
     }
 
 
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        guard let progress = object as? NSProgress, let progressSheet = progressSheetController.window else {
-            return
+    private func showAlertForError(error: CombineScansOperation.Error) {
+        let alert = NSAlert()
+        alert.addButtonWithTitle(NSLocalizedString("OK", comment: "OK button title"))
+
+        switch error {
+        case let .CouldNotOpenFileURL(fileURL):
+            updateAlert(alert, withErrorLocalizedKey: "CouldNotOpenFile", fileURL: fileURL)
+        case let  .CouldNotCreateOutputPDF(fileURL):
+            updateAlert(alert, withErrorLocalizedKey: "CouldNotCreateFile", fileURL: fileURL)
         }
 
-        NSOperationQueue.mainQueue().addOperationWithBlock { [unowned self] in
-            if progress.completedUnitCount < progress.totalUnitCount {
-                self.progressSheetController.updateWithProgress(progress, localizedMessageKey: "CombineProgress.Format")
-            } else {
-                self.window?.endSheet(progressSheet)
-            }
-        }
+        alert.beginSheetModalForWindow(self.window!, completionHandler: nil)
+    }
+
+
+    private func updateAlert(alert: NSAlert, withErrorLocalizedKey key: String, fileURL: NSURL) {
+        alert.messageText = NSLocalizedString("Error.\(key).MessageText", comment: "")
+        alert.informativeText = String.localizedStringWithFormat(NSLocalizedString("Error.\(key).InformativeText.Format", comment: ""),
+                                                                 fileURL.path!.stringByAbbreviatingWithTildeInPath)
     }
 
 

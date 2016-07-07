@@ -6,4 +6,12 @@
   Copyright © 2016 Quantum Lens Cap. All rights reserved.
 */
 
+"OK" = "OK";
+
 "CombineProgress.Format" = "Processing page %1$d of %2$d…";
+
+"Error.CouldNotOpenFile.MessageText" = "Could Not Open File";
+"Error.CouldNotOpenFile.InformativeText.Format" = "There was an error opening %1$@. Please make sure the file still exists.";
+
+"Error.CouldNotCreateFile.MessageText" = "Could Not Create File";
+"Error.CouldNotCreateFile.InformativeText.Format" = "There was an error creating %1$@. Please try again.";

@@ -46,7 +46,7 @@
                         <rect key="frame" x="293" y="76" width="262" height="262"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" imageFrameStyle="grayBezel" id="70Z-vJ-9qd"/>
                     </imageView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jBT-wh-YHh">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jBT-wh-YHh">
                         <rect key="frame" x="20" y="49" width="256" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="PDF of Front Pages" usesSingleLineMode="YES" id="dZx-Pa-eGi">
                             <font key="font" metaFont="system"/>
@@ -54,7 +54,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5ge-sw-8Eh">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5ge-sw-8Eh">
                         <rect key="frame" x="296" y="49" width="256" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="PDF of Back Pages in Reverse" usesSingleLineMode="YES" id="8TA-bj-JIe">
                             <font key="font" metaFont="system"/>
