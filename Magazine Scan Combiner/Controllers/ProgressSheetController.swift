@@ -42,10 +42,15 @@ class ProgressSheetController: NSWindowController {
     // MARK: - Progress properties
 
     private var needsProgressUpdate: Bool = false
-    private var progressUpdateTimer: NSTimer?
     private let progressUpdateInterval: NSTimeInterval = 1 / 60
     private var progressObserver: KeyValueObserver<NSProgress>?
 
+    private var progressUpdateTimer: NSTimer? {
+        willSet {
+            // Invalidate any previous timers whenever the update timer is about to be set
+            progressUpdateTimer?.invalidate()
+        }
+    }
 
     var progress: NSProgress? {
         didSet {
@@ -67,8 +72,7 @@ class ProgressSheetController: NSWindowController {
                 // Stop observing progress
                 progressObserver = nil
 
-                // Disable the update timer
-                progressUpdateTimer?.invalidate()
+                // Get rid of our update timer
                 progressUpdateTimer = nil
             }
         }
