@@ -27,28 +27,55 @@
 import Cocoa
 
 class ProgressSheetController: NSWindowController {
-    @IBOutlet var progressIndicator: NSProgressIndicator!
+    // MARK: - Outlets
+
     @IBOutlet var messageLabel: NSTextField!
+    @IBOutlet var progressIndicator: NSProgressIndicator!
     @IBOutlet var cancelButton: NSButton!
 
-    var localizedMesageKey: String?
+    
+    // MARK: - Properties for setting the progress message
+
+    var localizedProgressMesageKey: String?
+
+
+    // MARK: - Progress properties
+
+    private var needsProgressUpdate: Bool = false
+    private var progressUpdateTimer: NSTimer?
+    private let progressUpdateInterval: NSTimeInterval = 1 / 60
+    private var progressObserver: KeyValueObserver<NSProgress>?
+
 
     var progress: NSProgress? {
         didSet {
             if let progress = progress {
-                progressObserver = KeyValueObserver(object: progress, keyPath: "completedUnitCount", observeBlock: { [unowned self] _ in
-                    NSOperationQueue.mainQueue().addOperationWithBlock {
-                        self.updateWithProgressChange()
-                    }
-                })
+                // Begin observing changes to progress
+                progressObserver = KeyValueObserver(object: progress, keyPath: "completedUnitCount") { [unowned self] _ in
+                    self.needsProgressUpdate = true
+                }
+
+                // Schedule the update timer
+                let updateTimer = NSTimer.init(timeInterval: progressUpdateInterval,
+                                               target: self,
+                                               selector: #selector(updateProgressWithTimer(_:)),
+                                               userInfo: nil,
+                                               repeats: true)
+                self.progressUpdateTimer = updateTimer
+                NSRunLoop.mainRunLoop().addTimer(updateTimer, forMode: NSRunLoopCommonModes)
             } else {
+                // Stop observing progress
                 progressObserver = nil
+
+                // Disable the update timer
+                progressUpdateTimer?.invalidate()
+                progressUpdateTimer = nil
             }
         }
     }
 
-    private var progressObserver: KeyValueObserver<NSProgress>?
 
+    // MARK: - NSWindowController subclass overrides
 
     override var windowNibName: String? {
         return "ProgressSheetWindow"
@@ -61,24 +88,29 @@ class ProgressSheetController: NSWindowController {
     }
 
 
-    func updateWithProgressChange() {
-        guard let window = window where window.visible,
-            let progress = progress,
-            let localizedMessageKey = localizedMesageKey else {
-                return
-        }
-
-        let formatString = NSLocalizedString(localizedMessageKey, comment: "")
-        let message = String.localizedStringWithFormat(formatString, progress.completedUnitCount + 1, progress.totalUnitCount)
-
-        messageLabel.stringValue = message
-        progressIndicator.doubleValue = 100 * progress.fractionCompleted
-    }
-
+    // MARK: - Action methods
 
     @IBAction func cancel(sender: NSButton) {
         if let progress = progress  {
             progress.cancel()
         }
+    }
+
+
+    // MARK: - Updating the progress UI
+
+    func updateProgressWithTimer(timer: NSTimer) {
+        guard needsProgressUpdate,
+            let window = window where window.visible,
+            let localizedProgressMessageKey = localizedProgressMesageKey,
+            let progress = progress where progress.completedUnitCount < progress.totalUnitCount else {
+                return
+        }
+
+        let formatString = NSLocalizedString(localizedProgressMessageKey, comment: "")
+        let message = String.localizedStringWithFormat(formatString, progress.completedUnitCount + 1, progress.totalUnitCount)
+
+        messageLabel.stringValue = message
+        progressIndicator.doubleValue = 100 * progress.fractionCompleted
     }
 }

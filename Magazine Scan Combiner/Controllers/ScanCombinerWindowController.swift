@@ -28,6 +28,8 @@ import Cocoa
 
 
 class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegate {
+    // MARK: - Outlets and UI-related properties
+
     @IBOutlet var frontPagesFileDropImageView: FileDropImageView!
     @IBOutlet var frontPagesFilePathField: NSTextField!
     @IBOutlet var reversedBackPagesFileDropImageView: FileDropImageView!
@@ -35,6 +37,9 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
     @IBOutlet var combinePDFsButton: NSButton!
 
     private let progressSheetController = ProgressSheetController()
+
+
+    // MARK: - User input properties
 
     var frontPagesURL: NSURL? {
         didSet {
@@ -57,6 +62,8 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         }
     }
 
+
+    // MARK: - Concurrency
 
     lazy var operationQueue: NSOperationQueue = {
         let operationQueue = NSOperationQueue()
@@ -114,7 +121,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
 
         // Set up a Key-Value Observer to observe the completedUnitCount
         self.progressSheetController.progress = operation.progress
-        self.progressSheetController.localizedMesageKey = "CombineProgress.Format"
+        self.progressSheetController.localizedProgressMesageKey = "CombineProgress.Format"
 
         // Add a completion block that hides the progress sheet when the operation finishes
         operation.completionBlock = { [weak self] in
@@ -144,7 +151,23 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
     }
 
 
-    // MARK: - Showing Alerts
+    // MARK: - Updating the UI based on user input
+
+    private func updateTextField(field: NSTextField, withURL fileURL: NSURL) {
+        guard let path: NSString = fileURL.path else {
+            return
+        }
+
+        field.stringValue = path.stringByAbbreviatingWithTildeInPath
+    }
+
+
+    private func updateCombinePDFsButtonEnabled() {
+        combinePDFsButton.enabled = frontPagesURL != nil && reversedBackPagesURL != nil
+    }
+
+
+    // MARK: - Showing alerts
 
     private func showAlertForError(error: CombineScansOperation.Error) {
         let alert = NSAlert()
@@ -168,7 +191,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
     }
 
 
-    // MARK: - File Drop Image View Delegate
+    // MARK: - File Drop Image View delegate
 
     func fileDropImageView(imageView: FileDropImageView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool {
         return fileURL.pathExtension?.caseInsensitiveCompare("pdf") == .OrderedSame
@@ -181,21 +204,5 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         } else {
             self.reversedBackPagesURL = fileURL
         }
-    }
-
-
-    // MARK: - Updating the UI
-
-    private func updateTextField(field: NSTextField, withURL fileURL: NSURL) {
-        guard let path: NSString = fileURL.path else {
-            return
-        }
-
-        field.stringValue = path.stringByAbbreviatingWithTildeInPath
-    }
-
-
-    private func updateCombinePDFsButtonEnabled() {
-        combinePDFsButton.enabled = frontPagesURL != nil && reversedBackPagesURL != nil
     }
 }
