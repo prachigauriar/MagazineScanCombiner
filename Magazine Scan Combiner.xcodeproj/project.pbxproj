@@ -100,13 +100,13 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		4C1C01DB1D2CA8A3009ED1AF /* Tests */ = {
+		4C1C01DB1D2CA8A3009ED1AF /* Test Files */ = {
 			isa = PBXGroup;
 			children = (
 				4C1C01DF1D2CB147009ED1AF /* Front.pdf */,
 				4C1C01DE1D2CB147009ED1AF /* Back.pdf */,
 			);
-			path = Tests;
+			path = "Test Files";
 			sourceTree = "<group>";
 		};
 		4CDB5F8A1D299CEB009F5556 = {
@@ -114,7 +114,7 @@
 			children = (
 				4CDB5F951D299CEB009F5556 /* Magazine Scan Combiner */,
 				4C02D5B71D2C90750096DA2B /* scancombine */,
-				4C1C01DB1D2CA8A3009ED1AF /* Tests */,
+				4C1C01DB1D2CA8A3009ED1AF /* Test Files */,
 				4CDB5F941D299CEB009F5556 /* Products */,
 			);
 			sourceTree = "<group>";
