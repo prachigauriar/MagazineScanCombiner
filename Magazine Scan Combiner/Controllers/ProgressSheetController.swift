@@ -36,7 +36,7 @@ class ProgressSheetController: NSWindowController {
     var progress: NSProgress? {
         didSet {
             if let progress = progress {
-                progressObserver = KeyValueObserver(object: progress, keyPath: "completedUnitCount", observeBlock: { [unowned self] (progress) in
+                progressObserver = KeyValueObserver(object: progress, keyPath: "completedUnitCount", observeBlock: { [unowned self] _ in
                     NSOperationQueue.mainQueue().addOperationWithBlock {
                         self.updateWithProgressChange()
                     }
@@ -62,8 +62,10 @@ class ProgressSheetController: NSWindowController {
 
 
     func updateWithProgressChange() {
-        guard let progress = progress, localizedMessageKey = localizedMesageKey else {
-            return
+        guard let window = window where window.visible,
+            let progress = progress,
+            let localizedMessageKey = localizedMesageKey else {
+                return
         }
 
         let formatString = NSLocalizedString(localizedMessageKey, comment: "")

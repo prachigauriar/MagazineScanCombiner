@@ -28,8 +28,6 @@ import Cocoa
 
 
 class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegate {
-    // MARK: - User Interface properties
-
     @IBOutlet var frontPagesFileDropImageView: FileDropImageView!
     @IBOutlet var frontPagesFilePathField: NSTextField!
     @IBOutlet var reversedBackPagesFileDropImageView: FileDropImageView!
@@ -59,7 +57,6 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         }
     }
 
-    // MARK: - Model properties
 
     lazy var operationQueue: NSOperationQueue = {
         let operationQueue = NSOperationQueue()
@@ -146,6 +143,8 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
         self.operationQueue.addOperation(operation)
     }
 
+
+    // MARK: - Showing Alerts
 
     private func showAlertForError(error: CombineScansOperation.Error) {
         let alert = NSAlert()

@@ -59,24 +59,27 @@ class CombineScansOperation: ConcurrentProgressReportingOperation {
 
         executing = true
 
+        // However we exit, we want to mark ourselves as finished and not executing
+        defer {
+            executing = false
+            finished = true
+        }
+
         // If we couldn’t open the front pages PDF, set our error, finish, and exit
         guard let frontPagesDocument = CGPDFDocumentCreateWithURL(frontPagesPDFURL) else {
             error = Error.CouldNotOpenFileURL(frontPagesPDFURL)
-            finished = true
             return
         }
 
         // If we couldn’t open the reversed back pages PDF, set our error, finish, and exit
         guard let reversedBackPagesDocument = CGPDFDocumentCreateWithURL(reversedBackPagesPDFURL) else {
             error = Error.CouldNotOpenFileURL(reversedBackPagesPDFURL)
-            finished = true
             return
         }
 
         // If we couldn’t create the output PDF context, set our error, finish, and exit
         guard let outputPDFContext = CGPDFContextCreateWithURL(outputPDFURL, nil, nil) else {
             error = Error.CouldNotCreateOutputPDF(outputPDFURL)
-            finished = true
             return
         }
 
@@ -102,9 +105,6 @@ class CombineScansOperation: ConcurrentProgressReportingOperation {
             } catch {
             }
         }
-
-        executing = false
-        finished = true
     }
 }
 
