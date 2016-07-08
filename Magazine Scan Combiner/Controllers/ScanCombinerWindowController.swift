@@ -78,13 +78,13 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
     // MARK: - Action methods
 
     @IBAction func combinePDFs(sender: NSButton) {
-        guard let directory = frontPagesURL?.URLByDeletingLastPathComponent else {
+        guard let directoryURL = frontPagesURL?.URLByDeletingLastPathComponent else {
             NSBeep()
             return
         }
 
         let savePanel = NSSavePanel()
-        savePanel.directoryURL = directory
+        savePanel.directoryURL = directoryURL
         savePanel.allowedFileTypes = ["pdf"]
         savePanel.canSelectHiddenExtension = true
 

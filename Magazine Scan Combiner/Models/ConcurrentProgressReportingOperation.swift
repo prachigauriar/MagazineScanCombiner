@@ -41,6 +41,10 @@ class ConcurrentProgressReportingOperation: NSOperation, NSProgressReporting {
             willChangeValueForKey("isExecuting")
             _executing = newValue
             didChangeValueForKey("isExecuting")
+
+            if executing {
+                finished = false
+            }
         }
     }
 
@@ -52,6 +56,10 @@ class ConcurrentProgressReportingOperation: NSOperation, NSProgressReporting {
             willChangeValueForKey("isFinished")
             _finished = newValue
             didChangeValueForKey("isFinished")
+
+            if finished {
+                executing = false
+            }
         }
     }
 

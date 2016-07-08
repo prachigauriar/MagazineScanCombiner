@@ -27,20 +27,33 @@
 import Foundation
 
 
- @noreturn func printUsageAndExit() {
+/// Prints command-line usage and exits with status 1.
+@noreturn func printUsageAndExit() {
+    var standardErrorStream = StandardErrorStream()
     print("\(NSProcessInfo.processInfo().processName) frontPagesPDF reversedBackPagesPDF outputPDF", toStream: &standardErrorStream)
     exit(1)
 }
 
 
+/// Converts the specified file path into a file URL and returns it if its reachable.
+/// - parameter path: The file path to convert into a URL. If relative, the returned URL is
+///     relative to the process’s current working directory. If the path begins with a “~” or
+///     “~*user*”, the tilde is expanded before converting it into a URL.
+/// - returns: A file URL for the specified file path if it is reachable; `nil` otherwise.
 func validatedFileURLWithPath(path: String) -> NSURL? {
     let URL = NSURL(fileURLWithPath: path.stringByExpandingTildeInPath)
     return URL.checkResourceIsReachableAndReturnError(nil) ? URL : nil
 }
 
 
+/// Parses the processes’s command-line arguments and returns them in a tuple. If an error
+/// occurs while parsing command-line arguments, prints an error message and exits.
+//
+/// - returns: A tuple containing the command-line arguments as URLs.
 func parseCommandLineArguments() -> (frontPagesFileURL: NSURL, reversedBackPagesFileURL: NSURL, outputFileURL: NSURL) {
     let userArguments = NSProcessInfo.processInfo().userArguments
+    var standardErrorStream = StandardErrorStream()
+
     guard userArguments.count == 3 else {
         printUsageAndExit()
     }
@@ -62,16 +75,21 @@ func parseCommandLineArguments() -> (frontPagesFileURL: NSURL, reversedBackPages
     return (frontPagesFileURL, reversedBackPagesFileURL, outputFileURL)
 }
 
-
+// Parse the command-line arguments
 let (frontPagesPDFURL, reversedBackPagesPDFURL, outputPDFURL) = parseCommandLineArguments()
+
+// Create and start a combine scans operation with those arguments
 let operation = CombineScansOperation(frontPagesPDFURL: frontPagesPDFURL, reversedBackPagesPDFURL: reversedBackPagesPDFURL, outputPDFURL: outputPDFURL)
 operation.start()
 
+// When the operation is done, if it doesn’t have an error, everything succeeded
 guard let error = operation.error else {
     print("Successfully combined PDFs and saved output to \(outputPDFURL.path!.stringByAbbreviatingWithTildeInPath).")
     exit(0)
 }
 
+// Otherwise, print an appropriate error message
+var standardErrorStream = StandardErrorStream()
 switch error {
 case let .CouldNotOpenFileURL(fileURL):
     print("Could not open input PDF \(fileURL.path!.stringByAbbreviatingWithTildeInPath).", toStream: &standardErrorStream)

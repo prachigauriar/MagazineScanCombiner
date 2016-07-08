@@ -1,6 +1,6 @@
 //
 //  CommandLineHelpers.swift
-//  Magazine Scan Combiner
+//  scancombine
 //
 //  Created by Prachi Gauriar on 7/5/2016.
 //  Copyright © 2016 Prachi Gauriar.
@@ -27,12 +27,18 @@
 import Foundation
 
 
+/// This extension to NSProcessInfo adds computed properties for accessing user arguments, i.e.,
+/// arguments actually specified by the user as opposed to the operating system.
 extension NSProcessInfo {
+    /// The number of arguments entered by the user.
+    /// This is simply one less than the total number of process arguments.
     var userArgumentCount: Int {
         return self.arguments.count - 1
     }
 
 
+    /// The arguments entered by the user.
+    /// This is simply all the process’s arguments excluding the first.
     var userArguments: [String] {
         guard userArgumentCount > 0 else {
             return []
@@ -42,11 +48,16 @@ extension NSProcessInfo {
     }
 }
 
-
+/// `StandardErrorStreams` are `OutputStreamTypes` that write to the standard error device.
+///
+/// They can be used with `print(_:,toStream:)` to write console output to standard error:
+///
+/// ```
+/// var standardError = StandardErrorStream()
+/// print("Error: …", toStream: standardError)
+/// ```
 struct StandardErrorStream: OutputStreamType {
     mutating func write(string: String) {
         fputs(string, stderr)
     }
 }
-
-var standardErrorStream = StandardErrorStream()

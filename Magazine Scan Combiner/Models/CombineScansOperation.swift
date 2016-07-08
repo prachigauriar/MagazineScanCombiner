@@ -59,11 +59,8 @@ class CombineScansOperation: ConcurrentProgressReportingOperation {
 
         executing = true
 
-        // However we exit, we want to mark ourselves as finished and not executing
-        defer {
-            executing = false
-            finished = true
-        }
+        // However we exit, we want to mark ourselves as no longer executing
+        defer { finished = true }
 
         // If we couldn’t open the front pages PDF, set our error, finish, and exit
         guard let frontPagesDocument = CGPDFDocumentCreateWithURL(frontPagesPDFURL) else {
