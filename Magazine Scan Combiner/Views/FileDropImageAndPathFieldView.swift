@@ -89,10 +89,10 @@ protocol FileDropImageAndPathFieldViewDelegate {
         fileDropImageView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: -3).active = true
         fileDropImageView.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: 3).active = true
 
-        pathField.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: 1).active = true
-        pathField.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: -1).active = true
-        pathField.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
+        pathField.leadingAnchor.constraintEqualToAnchor(fileDropImageView.leadingAnchor).active = true
+        pathField.trailingAnchor.constraintEqualToAnchor(fileDropImageView.trailingAnchor).active = true
         pathField.topAnchor.constraintEqualToAnchor(fileDropImageView.bottomAnchor, constant: 8).active = true
+        pathField.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
     }
 
 
