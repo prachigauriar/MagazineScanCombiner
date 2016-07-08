@@ -8,10 +8,8 @@
         <customObject id="-2" userLabel="File's Owner" customClass="ScanCombinerWindowController" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
             <connections>
                 <outlet property="combinePDFsButton" destination="jjE-W0-6TY" id="hOY-Jo-ElE"/>
-                <outlet property="frontPagesFileDropImageView" destination="37j-cr-Ai7" id="5rI-7o-PPC"/>
-                <outlet property="frontPagesFilePathField" destination="jBT-wh-YHh" id="6Ds-BZ-gfG"/>
-                <outlet property="reversedBackPagesFileDropImageView" destination="2qN-oM-l7E" id="BOs-92-U8n"/>
-                <outlet property="reversedBackPagesFilePathField" destination="5ge-sw-8Eh" id="i1i-nR-20u"/>
+                <outlet property="frontPagesDropView" destination="wwR-Za-gZv" id="C3G-0P-N5O"/>
+                <outlet property="reversedBackPagesDropView" destination="Ldj-7A-S27" id="A2Y-xi-ePX"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="fcO-mb-RQr"/>
             </connections>
         </customObject>
@@ -21,7 +19,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="184" y="534" width="572" height="355"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <value key="minSize" type="size" width="572" height="355"/>
             <value key="maxSize" type="size" width="572" height="355"/>
             <view key="contentView" id="EiT-Mj-1SZ">
@@ -38,50 +36,30 @@
                             <action selector="combinePDFs:" target="-2" id="yB4-al-JMT"/>
                         </connections>
                     </button>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="37j-cr-Ai7" customClass="FileDropImageView" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
-                        <rect key="frame" x="17" y="76" width="262" height="262"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" imageFrameStyle="grayBezel" id="vlv-tO-lQW"/>
-                    </imageView>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2qN-oM-l7E" customClass="FileDropImageView" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
-                        <rect key="frame" x="293" y="76" width="262" height="262"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" imageFrameStyle="grayBezel" id="70Z-vJ-9qd"/>
-                    </imageView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jBT-wh-YHh">
-                        <rect key="frame" x="20" y="49" width="256" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="PDF of Front Pages" usesSingleLineMode="YES" id="dZx-Pa-eGi">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5ge-sw-8Eh">
-                        <rect key="frame" x="296" y="49" width="256" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="PDF of Back Pages in Reverse" usesSingleLineMode="YES" id="8TA-bj-JIe">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="wwR-Za-gZv" customClass="FileDropImageAndPathFieldView" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
+                        <rect key="frame" x="20" y="49" width="262" height="286"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="pathPlaceholderString" value="PDF of Front Pages"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ldj-7A-S27" customClass="FileDropImageAndPathFieldView" customModule="Magazine_Scan_Combiner" customModuleProvider="target">
+                        <rect key="frame" x="290" y="49" width="262" height="286"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="pathPlaceholderString" value="PDF of Back Pages in Reverse Order"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="37j-cr-Ai7" firstAttribute="width" secondItem="2qN-oM-l7E" secondAttribute="width" id="1f6-wp-9CX"/>
-                    <constraint firstItem="jBT-wh-YHh" firstAttribute="leading" secondItem="37j-cr-Ai7" secondAttribute="leading" id="1mx-sA-aZl"/>
-                    <constraint firstItem="jjE-W0-6TY" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="2qN-oM-l7E" secondAttribute="trailing" id="5Zb-bc-AEn"/>
-                    <constraint firstItem="jBT-wh-YHh" firstAttribute="trailing" secondItem="37j-cr-Ai7" secondAttribute="trailing" id="5pX-MZ-8BE"/>
-                    <constraint firstItem="jjE-W0-6TY" firstAttribute="top" secondItem="5ge-sw-8Eh" secondAttribute="bottom" constant="8" symbolic="YES" id="A2e-et-cKQ"/>
+                    <constraint firstAttribute="trailing" secondItem="Ldj-7A-S27" secondAttribute="trailing" constant="20" symbolic="YES" id="1aW-pM-FGF"/>
+                    <constraint firstItem="Ldj-7A-S27" firstAttribute="leading" secondItem="wwR-Za-gZv" secondAttribute="trailing" constant="8" symbolic="YES" id="9Ce-hQ-lcU"/>
+                    <constraint firstItem="wwR-Za-gZv" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="AKf-XQ-bwj"/>
+                    <constraint firstItem="Ldj-7A-S27" firstAttribute="top" secondItem="wwR-Za-gZv" secondAttribute="top" id="AU5-gH-noY"/>
+                    <constraint firstItem="Ldj-7A-S27" firstAttribute="bottom" secondItem="wwR-Za-gZv" secondAttribute="bottom" id="GoU-Ud-AOo"/>
                     <constraint firstItem="jjE-W0-6TY" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="IUU-Tw-ntV"/>
-                    <constraint firstItem="2qN-oM-l7E" firstAttribute="bottom" secondItem="37j-cr-Ai7" secondAttribute="bottom" id="UJN-gG-daF"/>
-                    <constraint firstItem="2qN-oM-l7E" firstAttribute="leading" secondItem="37j-cr-Ai7" secondAttribute="trailing" constant="20" id="UTt-w0-67e"/>
-                    <constraint firstItem="2qN-oM-l7E" firstAttribute="top" secondItem="37j-cr-Ai7" secondAttribute="top" id="Zxh-7f-F9g"/>
-                    <constraint firstItem="5ge-sw-8Eh" firstAttribute="leading" secondItem="2qN-oM-l7E" secondAttribute="leading" id="aP4-IW-s0e"/>
-                    <constraint firstItem="5ge-sw-8Eh" firstAttribute="top" secondItem="2qN-oM-l7E" secondAttribute="bottom" constant="8" id="dbz-Ml-j1P"/>
+                    <constraint firstItem="jjE-W0-6TY" firstAttribute="top" secondItem="wwR-Za-gZv" secondAttribute="bottom" constant="8" id="Kt2-R2-qys"/>
                     <constraint firstAttribute="bottom" secondItem="jjE-W0-6TY" secondAttribute="bottom" constant="20" symbolic="YES" id="elk-Ji-Zto"/>
-                    <constraint firstItem="37j-cr-Ai7" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="fZm-uC-Zow"/>
-                    <constraint firstItem="jBT-wh-YHh" firstAttribute="top" secondItem="37j-cr-Ai7" secondAttribute="bottom" constant="8" id="hpf-C5-IZo"/>
-                    <constraint firstAttribute="trailing" secondItem="2qN-oM-l7E" secondAttribute="trailing" constant="20" symbolic="YES" id="oVJ-VU-pmg"/>
-                    <constraint firstItem="jBT-wh-YHh" firstAttribute="centerX" secondItem="37j-cr-Ai7" secondAttribute="centerX" id="oZp-Nd-YoA"/>
-                    <constraint firstItem="37j-cr-Ai7" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="ufL-rA-eE0"/>
-                    <constraint firstItem="5ge-sw-8Eh" firstAttribute="trailing" secondItem="2qN-oM-l7E" secondAttribute="trailing" id="zoS-vg-Cu1"/>
+                    <constraint firstItem="Ldj-7A-S27" firstAttribute="width" secondItem="wwR-Za-gZv" secondAttribute="width" id="nxH-TU-oYF"/>
+                    <constraint firstItem="wwR-Za-gZv" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="v3o-4o-D9V"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="422" y="140.5"/>

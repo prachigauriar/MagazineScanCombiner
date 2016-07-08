@@ -33,7 +33,7 @@ protocol FileDropImageViewDelegate {
 }
 
 
-class FileDropImageView: NSImageView {
+@IBDesignable class FileDropImageView: NSImageView {
     var delegate: FileDropImageViewDelegate?
 
     override init(frame frameRect: NSRect) {

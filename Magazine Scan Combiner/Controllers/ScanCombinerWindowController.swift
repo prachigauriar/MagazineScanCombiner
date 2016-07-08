@@ -27,13 +27,11 @@
 import Cocoa
 
 
-class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegate {
+class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFieldViewDelegate {
     // MARK: - Outlets and UI-related properties
 
-    @IBOutlet var frontPagesFileDropImageView: FileDropImageView!
-    @IBOutlet var frontPagesFilePathField: NSTextField!
-    @IBOutlet var reversedBackPagesFileDropImageView: FileDropImageView!
-    @IBOutlet var reversedBackPagesFilePathField: NSTextField!
+    @IBOutlet var frontPagesDropView: FileDropImageAndPathFieldView!
+    @IBOutlet var reversedBackPagesDropView: FileDropImageAndPathFieldView!
     @IBOutlet var combinePDFsButton: NSButton!
 
 
@@ -41,10 +39,6 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
 
     var frontPagesURL: NSURL? {
         didSet {
-            if let URL = frontPagesURL {
-                updateTextField(frontPagesFilePathField, withURL: URL)
-            }
-
             updateCombinePDFsButtonEnabled()
         }
     }
@@ -52,10 +46,6 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
 
     var reversedBackPagesURL: NSURL? {
         didSet {
-            if let URL = reversedBackPagesURL {
-                updateTextField(reversedBackPagesFilePathField, withURL: URL)
-            }
-
             updateCombinePDFsButtonEnabled()
         }
     }
@@ -79,8 +69,8 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        frontPagesFileDropImageView.delegate = self
-        reversedBackPagesFileDropImageView.delegate = self
+        frontPagesDropView.delegate = self
+        reversedBackPagesDropView.delegate = self
         updateCombinePDFsButtonEnabled()
     }
 
@@ -152,15 +142,6 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
 
     // MARK: - Updating the UI based on user input
 
-    private func updateTextField(field: NSTextField, withURL fileURL: NSURL) {
-        guard let path: NSString = fileURL.path else {
-            return
-        }
-
-        field.stringValue = path.stringByAbbreviatingWithTildeInPath
-    }
-
-
     private func updateCombinePDFsButtonEnabled() {
         combinePDFsButton.enabled = frontPagesURL != nil && reversedBackPagesURL != nil
     }
@@ -190,15 +171,15 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageViewDelegat
     }
 
 
-    // MARK: - File Drop Image View delegate
+    // MARK: - File Drop Image and Path Field View delegate
 
-    func fileDropImageView(imageView: FileDropImageView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool {
+    func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool {
         return fileURL.pathExtension?.caseInsensitiveCompare("pdf") == .OrderedSame
     }
 
 
-    func fileDropImageView(imageView: FileDropImageView, didReceiveDroppedFileURL fileURL: NSURL) {
-        if imageView == frontPagesFileDropImageView {
+    func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, didReceiveDroppedFileURL fileURL: NSURL) {
+        if view == frontPagesDropView {
             self.frontPagesURL = fileURL
         } else {
             self.reversedBackPagesURL = fileURL

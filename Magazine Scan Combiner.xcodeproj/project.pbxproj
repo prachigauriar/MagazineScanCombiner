@@ -19,6 +19,7 @@
 		4C1C01E41D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E21D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift */; };
 		4C1C01E61D2DED12009ED1AF /* KeyValueObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */; };
 		4C1C01E71D2DED12009ED1AF /* KeyValueObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */; };
+		4CBC71151D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC71141D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift */; };
 		4CDB5F991D299CEB009F5556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F981D299CEB009F5556 /* Assets.xcassets */; };
 		4CDB5F9C1D299CEB009F5556 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */; };
 		4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDB5FA41D299D07009F5556 /* AppDelegate.swift */; };
@@ -52,6 +53,7 @@
 		4C1C01DF1D2CB147009ED1AF /* Front.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Front.pdf; sourceTree = "<group>"; };
 		4C1C01E21D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentProgressReportingOperation.swift; sourceTree = "<group>"; };
 		4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueObserver.swift; sourceTree = "<group>"; };
+		4CBC71141D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDropImageAndPathFieldView.swift; sourceTree = "<group>"; };
 		4CDB5F931D299CEB009F5556 /* Magazine Scan Combiner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magazine Scan Combiner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDB5F981D299CEB009F5556 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CDB5F9B1D299CEB009F5556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				4CDB5FB61D299D59009F5556 /* FileDropImageView.swift */,
+				4CBC71141D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -226,7 +229,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = "Quantum Lens Cap";
+				ORGANIZATIONNAME = "Prachi Gauriar";
 				TargetAttributes = {
 					4C02D5B51D2C90750096DA2B = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -294,6 +297,7 @@
 				4C1C01D61D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */,
 				4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */,
 				4CDB5FB91D299D59009F5556 /* FileDropImageView.swift in Sources */,
+				4CBC71151D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift in Sources */,
 				4CDB5FB81D299D59009F5556 /* CombineScansOperation.swift in Sources */,
 				4C1C01E31D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift in Sources */,
 				4CDB5FB71D299D59009F5556 /* ScanCombinerWindowController.swift in Sources */,
