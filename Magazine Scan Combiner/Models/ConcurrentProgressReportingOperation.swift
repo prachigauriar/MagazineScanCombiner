@@ -26,6 +26,13 @@
 
 import Foundation
 
+
+/// `ConcurrentProgressReportingOperation` is an abstract class that provides the basic boilerplate
+/// code for concurrent operations. Specifically, it overrides `asynchronous` to return `true`, 
+/// and adds read/write properties for `executing` and `finished` so that subclasses can easily set
+/// operation state in their `start` methods. 
+/// 
+/// As a conveneince, the class also conforms to `NSProgressReporting`. 
 class ConcurrentProgressReportingOperation: NSOperation, NSProgressReporting {
     // MARK: - Concurrent NSOperation subclass overrides
 
@@ -35,6 +42,9 @@ class ConcurrentProgressReportingOperation: NSOperation, NSProgressReporting {
 
 
     private var _executing: Bool = false
+
+    /// A Boolean value indicating whether the operation is currently executing.
+    /// Settings this value to `true` will automatically set `finished` to `false`.
     override var executing: Bool {
         get { return _executing }
         set {
@@ -50,6 +60,9 @@ class ConcurrentProgressReportingOperation: NSOperation, NSProgressReporting {
 
 
     private var _finished: Bool = false
+
+    /// A Boolean value indicating whether the operation has finished executing its task.
+    /// Settings this value to `true` will automatically set `executing` to `false`.
     override var finished: Bool {
         get { return _finished }
         set {
