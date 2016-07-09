@@ -30,7 +30,7 @@ import Foundation
 /// Prints command-line usage and exits with status 1.
 @noreturn func printUsageAndExit() {
     var standardErrorStream = StandardErrorStream()
-    print("\(NSProcessInfo.processInfo().processName) frontPagesPDF reversedBackPagesPDF outputPDF", toStream: &standardErrorStream)
+    print("Usage: \(NSProcessInfo.processInfo().processName) frontPagesPDF reversedBackPagesPDF outputPDF", toStream: &standardErrorStream)
     exit(1)
 }
 
