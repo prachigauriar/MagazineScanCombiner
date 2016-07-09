@@ -160,8 +160,8 @@ private struct ScannedPagesGenerator: GeneratorType {
     /// document and reversed back pages PDF document.
     init(frontPagesDocument: CGPDFDocument, reversedBackPagesDocument: CGPDFDocument) {
         nextPageIsFront = true
-        let frontPageNumbers = Array(1 ..< (CGPDFDocumentGetNumberOfPages(frontPagesDocument) + 1))
-        let backPageNumbers = Array((1 ..< (CGPDFDocumentGetNumberOfPages(reversedBackPagesDocument) + 1)).reverse())
+        let frontPageNumbers = 1 ..< (CGPDFDocumentGetNumberOfPages(frontPagesDocument) + 1)
+        let backPageNumbers = (1 ..< (CGPDFDocumentGetNumberOfPages(reversedBackPagesDocument) + 1)).reverse()
 
         frontPageGenerator = PDFDocumentPageGenerator(document: frontPagesDocument, pageNumbers: frontPageNumbers)
         backPageGenerator = PDFDocumentPageGenerator(document: reversedBackPagesDocument, pageNumbers: backPageNumbers)
@@ -181,8 +181,9 @@ private struct ScannedPagesGenerator: GeneratorType {
     }
 }
 
+
 /// Instances of `PDFDocumentPageGenerator` generate a sequence of `CGPDFPage` objects from a single PDF
-/// document using an array of page numbers specified at initialization time. For example, a generator
+/// document using a sequence of page numbers specified at initialization time. For example, a generator
 /// initialized like
 ///
 /// ```
@@ -194,16 +195,17 @@ private struct PDFDocumentPageGenerator: GeneratorType {
     /// The PDF document from which the instance gets pages.
     let document: CGPDFDocument
 
-    /// An indexing generator that returns the next page number to get from the PDF document.
-    var pageNumberGenerator: IndexingGenerator<[Int]>
+    /// An Int generator that returns the next page number to get from the PDF document.
+    var pageNumberGenerator: AnyGenerator<Int>
 
     /// Initializes a newly created `PDFDocumentPageGenerator` with the specified document and page numbers.
     /// - parameter document: The PDF document from which the instance gets pages.
     /// - parameter pageNumbers: The sequence of page numbers that the generator should use when getting pages.
-    init(document: CGPDFDocument, pageNumbers: [Int]) {
+    init<IntSequenceType: SequenceType where IntSequenceType.Generator.Element == Int>(document: CGPDFDocument, pageNumbers: IntSequenceType) {
         self.document = document
-        pageNumberGenerator = pageNumbers.generate()
+        pageNumberGenerator = AnyGenerator(pageNumbers.generate())
     }
+
 
     mutating func next() -> CGPDFPage? {
         guard let pageNumber = pageNumberGenerator.next() else {
