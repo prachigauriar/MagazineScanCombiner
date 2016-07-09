@@ -84,8 +84,10 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
         }
 
         let savePanel = NSSavePanel()
+        savePanel.nameFieldStringValue = NSLocalizedString("ScanCombinerWindowController.DefaultOutputFilename",
+                                                           comment: "Default filename for the output PDF")
         savePanel.directoryURL = directoryURL
-        savePanel.allowedFileTypes = ["pdf"]
+        savePanel.allowedFileTypes = [kUTTypePDF as String]
         savePanel.canSelectHiddenExtension = true
 
         savePanel.beginSheetModalForWindow(self.window!) { [unowned self] result in
@@ -174,7 +176,17 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
     // MARK: - File Drop Image and Path Field View delegate
 
     func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool {
-        return fileURL.pathExtension?.caseInsensitiveCompare("pdf") == .OrderedSame
+        do {
+            var resourceValue: AnyObject? = nil
+            try fileURL.getResourceValue(&resourceValue, forKey: NSURLTypeIdentifierKey)
+            guard let fileType = resourceValue as? String else {
+                return false
+            }
+
+            return UTTypeConformsTo(fileType, kUTTypePDF)
+        } catch {
+            return false
+        }
     }
 
 

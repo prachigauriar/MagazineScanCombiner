@@ -27,27 +27,83 @@
 import Cocoa
 
 
+/// The `FileDropImageAndPathFieldViewDelegate` protocol allows users of
+/// `FileDropImageAndPathFieldViews` to be notified when a file has been dropped on the view as well
+/// as controlling which file URLs are acceptable.
 protocol FileDropImageAndPathFieldViewDelegate {
+    /// Returns whether the  view should accept a drop for the specified file URL. This method can be
+    /// used to allow only certain files, e.g., only files with a given type or file extension, or files
+    /// located in a certain area of the file system. For example, to only accept spreadsheets, your
+    /// implementation may look like:
+    ///
+    /// ```
+    /// do {
+    ///     var resourceValue: AnyObject? = nil
+    ///     try fileURL.getResourceValue(&resourceValue, forKey: NSURLTypeIdentifierKey)
+    ///     guard let fileType = resourceValue as? String else {
+    ///         return false
+    ///     }
+    ///
+    ///     return UTTypeConformsTo(fileType, kUTTypeSpreadsheet)
+    /// } catch {
+    ///     return false
+    /// }
+    /// ```
+    ///
+    /// - parameter view: The file drop image and path field view.
+    /// - parameter fileURL: A file URL for the file being dragged onto the view.
+    /// - returns: Whether the view should accept the file.
     func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool
+
+    /// Notifies the receiver that the specified file URL has been dropped on the file drop image and path field view.
+    ///
+    /// - parameter view: The file drop image and path field view.
+    /// - parameter fileURL: The file URL for the file that was dropped.
     func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, didReceiveDroppedFileURL fileURL: NSURL)
 }
 
 
+/// `FileDropImageAndPathFieldView` instances make it easy to receive file URLs from the user via a
+/// drag-and-drop interface and display the file’s icon and path. When a file is dragged onto the
+/// view’s drop area, the view asks its delegate whether the file URL is an acceptable type. If it
+/// is and the file is dropped onto the instance, the view will update its image to the file’s icon
+/// or a thumbnail of the file’s contents if the file is an image. It will also update the contents
+/// of its path field to show the dropped file’s path. It will then notify the delegate of the dropped
+/// file’s URL.
 @IBDesignable class FileDropImageAndPathFieldView: NSView, FileDropImageViewDelegate {
+    /// The file drop image view the instance uses to handle file drops
     private let fileDropImageView: FileDropImageView
+
+    /// The text field the instance uses to display file paths
     private let pathField: NSTextField
 
-    @IBInspectable var pathPlaceholderString: String? {
-        get {
-            return pathField.placeholderString
-        }
+    /// The placeholder string used in the instance’s path field
+    @IBInspectable var pathFieldPlaceholderString: String? {
+        get { return pathField.placeholderString }
+        set { pathField.placeholderString = newValue }
+    }
 
-        set {
-            pathField.placeholderString = newValue
+    /// The instance’s delegate
+    var delegate: FileDropImageAndPathFieldViewDelegate?
+
+    private var _fileURL: NSURL? {
+        didSet {
+            guard let path = _fileURL?.path else {
+                return
+            }
+
+            pathField.stringValue = path.stringByAbbreviatingWithTildeInPath
         }
     }
 
-    var delegate: FileDropImageAndPathFieldViewDelegate?
+    /// The instance’s file URL
+    var fileURL: NSURL? {
+        get { return _fileURL }
+        set {
+            _fileURL = newValue
+            fileDropImageView.fileURL = newValue
+        }
+    }
 
     override init(frame: CGRect) {
         fileDropImageView = FileDropImageView()
@@ -104,12 +160,7 @@ protocol FileDropImageAndPathFieldViewDelegate {
 
 
     func fileDropImageView(imageView: FileDropImageView, didReceiveDroppedFileURL fileURL: NSURL) {
+        _fileURL = fileURL
         delegate?.fileDropImageAndPathFieldView(self, didReceiveDroppedFileURL: fileURL)
-
-        guard let path: NSString = fileURL.path else {
-            return
-        }
-
-        pathField.stringValue = path.stringByAbbreviatingWithTildeInPath
     }
 }
