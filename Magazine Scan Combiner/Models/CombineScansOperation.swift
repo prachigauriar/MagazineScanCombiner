@@ -26,18 +26,54 @@
 
 import Cocoa
 
+
+/// `CombineScansOperation` is an `NSOperation` subclass that combines the pages of two PDFs into a
+/// single new PDF. `CombineScansOperations` are meant to run concurrently in an operation queue,
+/// although they can be run synchronously by simply invoking an instance’s `start` method.
+///
+/// ## Page Order in the Output PDF
+///
+/// The two input PDFs are combined in a peculiar way: the pages of the second PDF are first
+/// reversed, and then interleaved with the pages of the first PDF. For example, suppose the first
+/// PDF has pages *P1*, *P2*, …, *Pm*, and the second PDF has pages *Q1*, *Q2*, …, *Qn*. Then the
+/// output PDF will have the pages *P1*, *Qn*, *P2*, …, *Q2*, *Pm*, *Q1*.
+///
+/// ## Monitoring Progress
+///
+/// To monitor an operation’s progress, access its `progress` property. That property’s 
+/// `totalUnitCount` is the total number of pages that will be in the output PDF; its
+/// `completedUnitCount` is the number of pages that have been written to the output PDF so far.
 class CombineScansOperation: ConcurrentProgressReportingOperation {
+    /// The types of errors that can occur during the execution of the operation.
     enum Error: ErrorType {
+        /// Indicates that the input PDF located at the associated `NSURL` could not be opened.
         case CouldNotOpenFileURL(NSURL)
+
+        /// Indicates that an output PDF could not be created at the associated `NSURL`.
         case CouldNotCreateOutputPDF(NSURL)
     }
 
+    /// The file URL of the PDF whose contents are the front pages of a printed work.
     let frontPagesPDFURL: NSURL
+
+    /// The file URL of the PDF whose contents are the back pages of a printed work in reverse order.
     let reversedBackPagesPDFURL: NSURL
+
+    /// The file URL at which to store the output PDF.
     let outputPDFURL: NSURL
 
+    /// Contains an error that occurred during execution of the instance. If nil, no error occurred.
+    /// If this is set, the operation finished unsuccessfully.
     private(set) var error: Error?
 
+    /// Initializes a newly created `CombineScansOperation` instance with the specified front pages PDF
+    /// URL, reversed back pages PDF URL, and output PDF URL.
+    ///
+    /// - parameter frontPagesPDFURL: The file URL of the PDF whose contents are the front pages of 
+    ///     a printed work.
+    /// - parameter reversedBackPagesPDFURL: The file URL of the PDF whose contents are the back pages
+    ///     of a printed work in reverse order.
+    /// - parameter outputPDFURL: The file URL at which to store the output PDF.
     init(frontPagesPDFURL: NSURL, reversedBackPagesPDFURL: NSURL, outputPDFURL: NSURL) {
         self.frontPagesPDFURL = frontPagesPDFURL
         self.reversedBackPagesPDFURL = reversedBackPagesPDFURL
@@ -106,18 +142,28 @@ class CombineScansOperation: ConcurrentProgressReportingOperation {
 }
 
 
+/// Instances of `ScannedPagesGenerator` generate a sequence of `CGPDFPage` objects from two PDFs.
+/// The order of the pages is that described in the `CombineScansOperation` class documentation.
 private struct ScannedPagesGenerator: GeneratorType {
+    /// Indicates whether the next page should come from the front pages PDF.
     var nextPageIsFront: Bool
+
+    /// The generator for pages from the front pages PDF document.
     var frontPageGenerator: PDFDocumentPageGenerator
+
+    /// The generator for pages from the back pages PDF document. This generator returns pages
+    /// in reverse order.
     var backPageGenerator: PDFDocumentPageGenerator
 
+    /// Initializes a newly created `ScannedPagesGenerator` instance with the specified front pages PDF
+    /// document and reversed back pages PDF document.
     init(frontPagesDocument: CGPDFDocument, reversedBackPagesDocument: CGPDFDocument) {
         nextPageIsFront = true
-        let frontPageArray = Array(1 ..< (CGPDFDocumentGetNumberOfPages(frontPagesDocument) + 1))
-        let backPageArray = Array((1 ..< (CGPDFDocumentGetNumberOfPages(reversedBackPagesDocument) + 1)).reverse())
+        let frontPageNumbers = Array(1 ..< (CGPDFDocumentGetNumberOfPages(frontPagesDocument) + 1))
+        let backPageNumbers = Array((1 ..< (CGPDFDocumentGetNumberOfPages(reversedBackPagesDocument) + 1)).reverse())
 
-        frontPageGenerator = PDFDocumentPageGenerator(document: frontPagesDocument, pages: frontPageArray)
-        backPageGenerator = PDFDocumentPageGenerator(document: reversedBackPagesDocument, pages: backPageArray)
+        frontPageGenerator = PDFDocumentPageGenerator(document: frontPagesDocument, pageNumbers: frontPageNumbers)
+        backPageGenerator = PDFDocumentPageGenerator(document: reversedBackPagesDocument, pageNumbers: backPageNumbers)
     }
 
 
@@ -134,19 +180,32 @@ private struct ScannedPagesGenerator: GeneratorType {
     }
 }
 
-
+/// Instances of `PDFDocumentPageGenerator` generate a sequence of `CGPDFPage` objects from a single PDF
+/// document using an array of page numbers specified at initialization time. For example, a generator
+/// initialized like
+///
+/// ```
+/// var generator = PDFDocumentPageGenerator(document, [1, 3, 2, 4, 4])
+/// ```
+///
+/// would return the 1st, 3rd, 2nd, 4th, and 4th pages of the specified PDF document.
 private struct PDFDocumentPageGenerator: GeneratorType {
+    /// The PDF document from which the instance gets pages.
     let document: CGPDFDocument
-    var pageGenerator: IndexingGenerator<[Int]>
 
-    init(document: CGPDFDocument, pages: [Int]) {
+    /// An indexing generator that returns the next page number to get from the PDF document.
+    var pageNumberGenerator: IndexingGenerator<[Int]>
+
+    /// Initializes a newly created `PDFDocumentPageGenerator` with the specified document and page numbers.
+    /// - parameter document: The PDF document from which the instance gets pages.
+    /// - parameter pageNumbers: The sequence of page numbers that the generator should use when getting pages.
+    init(document: CGPDFDocument, pageNumbers: [Int]) {
         self.document = document
-        pageGenerator = pages.generate()
+        pageNumberGenerator = pageNumbers.generate()
     }
 
-
     mutating func next() -> CGPDFPage? {
-        guard let pageNumber = pageGenerator.next() else {
+        guard let pageNumber = pageNumberGenerator.next() else {
             return nil
         }
 
