@@ -50,7 +50,7 @@ extension NSProcessInfo {
 
 /// `StandardErrorStreams` are `OutputStreamTypes` that write to the standard error device.
 ///
-/// They can be used with `print(_:,toStream:)` to write console output to standard error:
+/// They can be used with `print(_:toStream:)` to write console output to standard error:
 ///
 /// ```
 /// var standardError = StandardErrorStream()

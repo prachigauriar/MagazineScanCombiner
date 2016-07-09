@@ -66,6 +66,7 @@ class CombineScansOperation: ConcurrentProgressReportingOperation {
     /// If this is set, the operation finished unsuccessfully.
     private(set) var error: Error?
 
+    
     /// Initializes a newly created `CombineScansOperation` instance with the specified front pages PDF
     /// URL, reversed back pages PDF URL, and output PDF URL.
     ///

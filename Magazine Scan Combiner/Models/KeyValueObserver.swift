@@ -26,16 +26,40 @@
 
 import Foundation
 
-class KeyValueObserver<ObservedObjectType: NSObject>: NSObject {
-    private let object: ObservedObjectType
-    private let keyPath: String
-    private let observeBlock: (ObservedObjectType) -> ()
-    private var context = 1
 
-    init(object: ObservedObjectType, keyPath: String, options: NSKeyValueObservingOptions = .Initial, observeBlock: (ObservedObjectType) -> ()) {
+/// Instances of `KeyValueObserver` make it easy to use KVO without manually registering for 
+/// change notifications or overriding `observeValueForKeyPath(_:ofObject:change:context:)`.
+/// Upon creating a `KeyValueObserver` object, it automatically starts observing the key path
+/// specified and executes its change block whenever a change is observed. When the instance
+/// is deallocated, it automatically stops observing the specified key path.
+class KeyValueObserver<ObservedObjectType: NSObject>: NSObject {
+    /// The object being observed.
+    private let object: ObservedObjectType
+
+    /// The key path being observed.
+    private let keyPath: String
+
+    /// The block to invoke whenever a change is observed.
+    private let changeBlock: (ObservedObjectType) -> ()
+
+    /// A private context variable for use when registering and deregistering from KVO
+    private var context = 0
+
+    
+    /// Initializes a newly created `KeyValueObserver` instance with the specified object,
+    /// key path, key-value observing options, and change block. Upon completion of this
+    /// method, the new instance will be observing change notifications for the specified
+    /// object and key path.
+    ///
+    /// - parameter object: The object to observe
+    /// - parameter keyPath: The key path to observe
+    /// - parameter options: The key-value observing options to use when registering for
+    ///     change notifications
+    /// - parameter changeBlock: The block to invoke whenever a change is observed
+    init(object: ObservedObjectType, keyPath: String, options: NSKeyValueObservingOptions = .Initial, changeBlock: (ObservedObjectType) -> ()) {
         self.object = object
         self.keyPath = keyPath
-        self.observeBlock = observeBlock
+        self.changeBlock = changeBlock
 
         super.init()
 
@@ -49,6 +73,6 @@ class KeyValueObserver<ObservedObjectType: NSObject>: NSObject {
 
 
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        observeBlock(self.object)
+        changeBlock(self.object)
     }
 }
