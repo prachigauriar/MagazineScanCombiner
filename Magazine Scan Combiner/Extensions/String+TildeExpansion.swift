@@ -27,16 +27,16 @@
 import Foundation
 
 
-/// This extension to String simply exposes tilde path expansion methods that are only declared on
-/// NSString to String instances without casting.
+/// This extension simply adds `NSString`’s tilde path expansion methods to String so that they can be
+/// used without casting.
 extension String {
     /// A new string made by expanding the initial component of the receiver, if it begins with “~”
     /// or “~*user*”, to its full path value. Returns a new string matching the receiver if the
     /// receiver’s initial component can’t be expanded.
     ///
     /// - note:  This method only works with file paths (not, for example, string representations of URLs).
-    var stringByExpandingTildeInPath: String {
-        return (self as NSString).stringByExpandingTildeInPath
+    var expandingTildeInPath: String {
+        return (self as NSString).expandingTildeInPath
     }
 
 
@@ -53,7 +53,7 @@ extension String {
     ///     would be unchanged from the original. However, if you specified the same path for an app not
     ///     in a sandbox, this method would replace the `/Users/<current_user>` portion of the path with
     ///     a tilde.
-    var stringByAbbreviatingWithTildeInPath: String {
-        return (self as NSString).stringByAbbreviatingWithTildeInPath
+    var abbreviatingWithTildeInPath: String {
+        return (self as NSString).abbreviatingWithTildeInPath
     }
 }

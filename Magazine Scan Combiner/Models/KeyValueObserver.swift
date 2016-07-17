@@ -32,15 +32,15 @@ import Foundation
 /// Upon creating a `KeyValueObserver` object, it automatically starts observing the key path
 /// specified and executes its change block whenever a change is observed. When the instance
 /// is deallocated, it automatically stops observing the specified key path.
-class KeyValueObserver<ObservedObjectType: NSObject>: NSObject {
+class KeyValueObserver<ObservedType: NSObject> : NSObject {
     /// The object being observed.
-    private let object: ObservedObjectType
+    private let object: ObservedType
 
     /// The key path being observed.
     private let keyPath: String
 
     /// The block to invoke whenever a change is observed.
-    private let changeBlock: (ObservedObjectType) -> ()
+    private let changeBlock: (ObservedType) -> ()
 
     /// A private context variable for use when registering and deregistering from KVO
     private var context = 0
@@ -56,7 +56,7 @@ class KeyValueObserver<ObservedObjectType: NSObject>: NSObject {
     /// - parameter options: The key-value observing options to use when registering for
     ///     change notifications
     /// - parameter changeBlock: The block to invoke whenever a change is observed
-    init(object: ObservedObjectType, keyPath: String, options: NSKeyValueObservingOptions = .Initial, changeBlock: (ObservedObjectType) -> ()) {
+    init(object: ObservedType, keyPath: String, options: NSKeyValueObservingOptions = .initial, changeBlock: (ObservedType) -> ()) {
         self.object = object
         self.keyPath = keyPath
         self.changeBlock = changeBlock
@@ -72,7 +72,7 @@ class KeyValueObserver<ObservedObjectType: NSObject>: NSObject {
     }
 
 
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: AnyObject?, change: [NSKeyValueChangeKey : AnyObject]?, context: UnsafeMutablePointer<Void>?) {
         changeBlock(self.object)
     }
 }

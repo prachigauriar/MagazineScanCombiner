@@ -27,9 +27,9 @@
 import Foundation
 
 
-/// This extension to NSProcessInfo adds computed properties for accessing user arguments, i.e.,
+/// This extension to ProcessInfo adds computed properties for accessing user arguments, i.e.,
 /// arguments actually specified by the user as opposed to the operating system.
-extension NSProcessInfo {
+extension ProcessInfo {
     /// The number of arguments entered by the user.
     /// This is simply one less than the total number of process arguments.
     var userArgumentCount: Int {
@@ -44,20 +44,20 @@ extension NSProcessInfo {
             return []
         }
 
-        return Array(arguments.suffixFrom(1))
+        return Array(arguments.suffix(from: 1))
     }
 }
 
-/// `StandardErrorStreams` are `OutputStreamTypes` that write to the standard error device.
+/// `StandardErrorStream`s are `OutputStream`s that write to the standard error device.
 ///
-/// They can be used with `print(_:toStream:)` to write console output to standard error:
+/// They can be used with `print(_:to:)` to write console output to standard error:
 ///
 /// ```
 /// var standardError = StandardErrorStream()
-/// print("Error: …", toStream: standardError)
+/// print("Error: …", to: standardError)
 /// ```
-struct StandardErrorStream: OutputStreamType {
-    mutating func write(string: String) {
+struct StandardErrorStream : OutputStream {
+    mutating func write(_ string: String) {
         fputs(string, stderr)
     }
 }

@@ -32,11 +32,11 @@ import Foundation
 /// and adds read/write properties for `executing` and `finished` so that subclasses can easily set
 /// operation state in their `start` methods. 
 /// 
-/// As a conveneince, the class also conforms to `NSProgressReporting`. 
-class ConcurrentProgressReportingOperation: NSOperation, NSProgressReporting {
-    // MARK: - Concurrent NSOperation subclass overrides
+/// As a conveneince, the class also conforms to `ProgressReporting`. 
+class ConcurrentProgressReportingOperation : Operation, ProgressReporting {
+    // MARK: - Concurrent Operation subclass overrides
 
-    override var asynchronous: Bool {
+    override var isAsynchronous: Bool {
         return true
     }
 
@@ -45,15 +45,15 @@ class ConcurrentProgressReportingOperation: NSOperation, NSProgressReporting {
 
     /// A Boolean value indicating whether the operation is currently executing.
     /// Settings this value to `true` will automatically set `finished` to `false`.
-    override var executing: Bool {
+    override var isExecuting: Bool {
         get { return _executing }
         set {
-            willChangeValueForKey("isExecuting")
+            willChangeValue(forKey: #keyPath(isExecuting))
             _executing = newValue
-            didChangeValueForKey("isExecuting")
+            didChangeValue(forKey: #keyPath(isExecuting))
 
-            if executing {
-                finished = false
+            if isExecuting {
+                isFinished = false
             }
         }
     }
@@ -63,21 +63,21 @@ class ConcurrentProgressReportingOperation: NSOperation, NSProgressReporting {
 
     /// A Boolean value indicating whether the operation has finished executing its task.
     /// Settings this value to `true` will automatically set `executing` to `false`.
-    override var finished: Bool {
+    override var isFinished: Bool {
         get { return _finished }
         set {
-            willChangeValueForKey("isFinished")
+            willChangeValue(forKey: #keyPath(isFinished))
             _finished = newValue
-            didChangeValueForKey("isFinished")
+            didChangeValue(forKey: #keyPath(isFinished))
 
-            if finished {
-                executing = false
+            if isFinished {
+                isExecuting = false
             }
         }
     }
 
 
-    // MARK: - NSProgressReporting
+    // MARK: - ProgressReporting
 
-    let progress: NSProgress = NSProgress(parent: nil, userInfo: nil)
+    let progress = Progress(parent: nil, userInfo: nil)
 }

@@ -19,6 +19,7 @@
 		4C1C01E41D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E21D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift */; };
 		4C1C01E61D2DED12009ED1AF /* KeyValueObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */; };
 		4C1C01E71D2DED12009ED1AF /* KeyValueObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */; };
+		4CA2CADD1D40453D0060646B /* URL+Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA2CADC1D40453D0060646B /* URL+Pasteboard.swift */; };
 		4CBC71151D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC71141D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift */; };
 		4CDB5F991D299CEB009F5556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F981D299CEB009F5556 /* Assets.xcassets */; };
 		4CDB5F9C1D299CEB009F5556 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDB5F9A1D299CEB009F5556 /* MainMenu.xib */; };
@@ -53,6 +54,7 @@
 		4C1C01DF1D2CB147009ED1AF /* Front.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Front.pdf; sourceTree = "<group>"; };
 		4C1C01E21D2DE39D009ED1AF /* ConcurrentProgressReportingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentProgressReportingOperation.swift; sourceTree = "<group>"; };
 		4C1C01E51D2DED12009ED1AF /* KeyValueObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueObserver.swift; sourceTree = "<group>"; };
+		4CA2CADC1D40453D0060646B /* URL+Pasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Pasteboard.swift"; sourceTree = "<group>"; };
 		4CBC71141D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDropImageAndPathFieldView.swift; sourceTree = "<group>"; };
 		4CDB5F931D299CEB009F5556 /* Magazine Scan Combiner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magazine Scan Combiner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDB5F981D299CEB009F5556 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				4C1C01D51D2C9D0C009ED1AF /* String+TildeExpansion.swift */,
+				4CA2CADC1D40453D0060646B /* URL+Pasteboard.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -228,7 +231,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Prachi Gauriar";
 				TargetAttributes = {
 					4C02D5B51D2C90750096DA2B = {
@@ -236,6 +239,7 @@
 					};
 					4CDB5F921D299CEB009F5556 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -295,6 +299,7 @@
 			files = (
 				4CDB5FBC1D2B4F80009F5556 /* ProgressSheetController.swift in Sources */,
 				4C1C01D61D2C9D0C009ED1AF /* String+TildeExpansion.swift in Sources */,
+				4CA2CADD1D40453D0060646B /* URL+Pasteboard.swift in Sources */,
 				4CDB5FA71D299D07009F5556 /* AppDelegate.swift in Sources */,
 				4CDB5FB91D299D59009F5556 /* FileDropImageView.swift in Sources */,
 				4CBC71151D2FD0DA000B55C3 /* FileDropImageAndPathFieldView.swift in Sources */,
@@ -349,6 +354,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -443,6 +449,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quantumlenscap.Magazine-Scan-Combiner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -455,6 +462,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quantumlenscap.Magazine-Scan-Combiner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
