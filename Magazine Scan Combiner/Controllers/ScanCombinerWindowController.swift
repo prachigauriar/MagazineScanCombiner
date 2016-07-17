@@ -96,12 +96,12 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
                     return
             }
 
-            self.beginCombiningPDFsWithOutputURL(outputURL)
+            self.beginCombiningPDFs(savingTo: outputURL)
         }
     }
 
 
-    private func beginCombiningPDFsWithOutputURL(_ outputURL: URL) {
+    private func beginCombiningPDFs(savingTo outputURL: URL) {
         guard let frontPagesURL = frontPagesURL, let reversedBackPagesURL = reversedBackPagesURL else {
             return
         }
@@ -131,7 +131,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
         self.window?.beginSheet(progressSheetController.window!, completionHandler: { [unowned self] _ in
             if let error = operation.error {
                 // If there was an error, show an alert to the user
-                self.showAlertForError(error)
+                self.showAlert(for: error)
             } else if !operation.isCancelled {
                 // Otherwise show the resultant PDF in the Finder if it wasn’t canceled
                 NSWorkspace.shared().activateFileViewerSelecting([outputURL])
@@ -151,7 +151,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
     // MARK: - Showing alerts
 
-    private func showAlertForError(_ error: CombineScansOperation.Error) {
+    private func showAlert(for error: CombineScansOperation.Error) {
         let alert = NSAlert()
         alert.addButton(withTitle: NSLocalizedString("OK", comment: "OK button title"))
 
