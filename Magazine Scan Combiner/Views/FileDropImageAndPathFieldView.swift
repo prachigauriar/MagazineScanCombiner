@@ -53,13 +53,13 @@ protocol FileDropImageAndPathFieldViewDelegate {
     /// - parameter view: The file drop image and path field view.
     /// - parameter fileURL: A file URL for the file being dragged onto the view.
     /// - returns: Whether the view should accept the file.
-    func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool
+    func fileDropImageAndPathFieldView(_ view: FileDropImageAndPathFieldView, shouldAcceptDraggedFileURL fileURL: URL) -> Bool
 
     /// Notifies the receiver that the specified file URL has been dropped on the file drop image and path field view.
     ///
     /// - parameter view: The file drop image and path field view.
     /// - parameter fileURL: The file URL for the file that was dropped.
-    func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, didReceiveDroppedFileURL fileURL: NSURL)
+    func fileDropImageAndPathFieldView(_ view: FileDropImageAndPathFieldView, didReceiveDroppedFileURL fileURL: URL)
 }
 
 
@@ -70,7 +70,7 @@ protocol FileDropImageAndPathFieldViewDelegate {
 /// or a thumbnail of the file’s contents if the file is an image. It will also update the contents
 /// of its path field to show the dropped file’s path. It will then notify the delegate of the dropped
 /// file’s URL.
-@IBDesignable class FileDropImageAndPathFieldView: NSView, FileDropImageViewDelegate {
+@IBDesignable class FileDropImageAndPathFieldView : NSView, FileDropImageViewDelegate {
     /// The file drop image view the instance uses to handle file drops
     private let fileDropImageView: FileDropImageView
 
@@ -86,18 +86,18 @@ protocol FileDropImageAndPathFieldViewDelegate {
     /// The instance’s delegate
     var delegate: FileDropImageAndPathFieldViewDelegate?
 
-    private var _fileURL: NSURL? {
+    private var _fileURL: URL? {
         didSet {
             guard let path = _fileURL?.path else {
                 return
             }
 
-            pathField.stringValue = path.stringByAbbreviatingWithTildeInPath
+            pathField.stringValue = path.abbreviatingWithTildeInPath
         }
     }
 
     /// The instance’s file URL
-    var fileURL: NSURL? {
+    var fileURL: URL? {
         get { return _fileURL }
         set {
             _fileURL = newValue
@@ -125,41 +125,41 @@ protocol FileDropImageAndPathFieldViewDelegate {
 
     private func initializeSubviews() {
         fileDropImageView.translatesAutoresizingMaskIntoConstraints = false
-        fileDropImageView.imageFrameStyle = .GrayBezel
-        fileDropImageView.imageScaling = .ScaleProportionallyUpOrDown
+        fileDropImageView.imageFrameStyle = .grayBezel
+        fileDropImageView.imageScaling = .scaleProportionallyUpOrDown
         fileDropImageView.delegate = self
 
         pathField.translatesAutoresizingMaskIntoConstraints = false
-        pathField.editable = false
-        pathField.selectable = true
+        pathField.isEditable = false
+        pathField.isSelectable = true
         pathField.usesSingleLineMode = true
-        pathField.bezeled = true
-        pathField.bezelStyle = .SquareBezel
-        pathField.cell?.scrollable = true
-        pathField.setContentCompressionResistancePriority(250, forOrientation: .Horizontal)
+        pathField.isBezeled = true
+        pathField.bezelStyle = .squareBezel
+        pathField.cell?.isScrollable = true
+        pathField.setContentCompressionResistancePriority(250, for: .horizontal)
 
         addSubview(fileDropImageView)
         addSubview(pathField)
 
-        fileDropImageView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: 3).active = true
-        fileDropImageView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: -3).active = true
-        fileDropImageView.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: 3).active = true
+        fileDropImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 3).isActive = true
+        fileDropImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -3).isActive = true
+        fileDropImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 3).isActive = true
 
-        pathField.leadingAnchor.constraintEqualToAnchor(fileDropImageView.leadingAnchor).active = true
-        pathField.trailingAnchor.constraintEqualToAnchor(fileDropImageView.trailingAnchor).active = true
-        pathField.topAnchor.constraintEqualToAnchor(fileDropImageView.bottomAnchor, constant: 8).active = true
-        pathField.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
+        pathField.leadingAnchor.constraint(equalTo: fileDropImageView.leadingAnchor).isActive = true
+        pathField.trailingAnchor.constraint(equalTo: fileDropImageView.trailingAnchor).isActive = true
+        pathField.topAnchor.constraint(equalTo: fileDropImageView.bottomAnchor, constant: 8).isActive = true
+        pathField.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 
 
     // MARK: - File Drop Image View delegate
 
-    func fileDropImageView(imageView: FileDropImageView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool {
+    func fileDropImageView(_ imageView: FileDropImageView, shouldAcceptDraggedFileURL fileURL: URL) -> Bool {
         return delegate?.fileDropImageAndPathFieldView(self, shouldAcceptDraggedFileURL: fileURL) ?? false
     }
 
 
-    func fileDropImageView(imageView: FileDropImageView, didReceiveDroppedFileURL fileURL: NSURL) {
+    func fileDropImageView(_ imageView: FileDropImageView, didReceiveDroppedFileURL fileURL: URL) {
         _fileURL = fileURL
         delegate?.fileDropImageAndPathFieldView(self, didReceiveDroppedFileURL: fileURL)
     }

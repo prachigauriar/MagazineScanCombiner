@@ -28,10 +28,10 @@ import Cocoa
 
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate : NSObject, NSApplicationDelegate {
     @IBOutlet weak var mainWindowController: ScanCombinerWindowController!
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         mainWindowController.showWindow(nil)
     }
 }

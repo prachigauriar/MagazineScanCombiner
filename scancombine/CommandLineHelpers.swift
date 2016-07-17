@@ -27,9 +27,9 @@
 import Foundation
 
 
-/// This extension to NSProcessInfo adds computed properties for accessing user arguments, i.e.,
+/// This extension to ProcessInfo adds computed properties for accessing user arguments, i.e.,
 /// arguments actually specified by the user as opposed to the operating system.
-extension NSProcessInfo {
+extension ProcessInfo {
     /// The number of arguments entered by the user.
     /// This is simply one less than the total number of process arguments.
     var userArgumentCount: Int {
@@ -44,7 +44,7 @@ extension NSProcessInfo {
             return []
         }
 
-        return Array(arguments.suffixFrom(1))
+        return Array(arguments.suffix(from: 1))
     }
 }
 
@@ -54,10 +54,10 @@ extension NSProcessInfo {
 ///
 /// ```
 /// var standardError = StandardErrorStream()
-/// print("Error: …", toStream: standardError)
+/// print("Error: …", to: standardError)
 /// ```
-struct StandardErrorStream: OutputStreamType {
-    mutating func write(string: String) {
+struct StandardErrorStream : OutputStream {
+    mutating func write(_ string: String) {
         fputs(string, stderr)
     }
 }

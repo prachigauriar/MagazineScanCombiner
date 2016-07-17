@@ -26,7 +26,7 @@
 
 import Cocoa
 
-class ProgressSheetController: NSWindowController {
+class ProgressSheetController : NSWindowController {
     // MARK: - Outlets
 
     @IBOutlet var messageLabel: NSTextField!
@@ -41,9 +41,9 @@ class ProgressSheetController: NSWindowController {
 
     // MARK: - Progress properties
 
-    private var progressObserver: KeyValueObserver<NSProgress>?
+    private var progressObserver: KeyValueObserver<Progress>?
 
-    var progress: NSProgress? {
+    var progress: Progress? {
         didSet {
             if let progress = progress {
                 // Begin observing changes to progress
@@ -57,19 +57,19 @@ class ProgressSheetController: NSWindowController {
         }
     }
 
-    private let progressUpdateInterval: NSTimeInterval = 1 / 60
-    private var progressUpdateTimer: NSTimer?
+    private let progressUpdateInterval: TimeInterval = 1 / 60
+    private var progressUpdateTimer: Timer?
     private var needsProgressUpdate: Bool = false {
         didSet {
-            if !(progressUpdateTimer?.valid ?? false) {
+            if !(progressUpdateTimer?.isValid ?? false) {
                 // Schedule the update timer
-                let updateTimer = NSTimer.init(timeInterval: progressUpdateInterval,
-                                               target: self,
-                                               selector: #selector(updateProgressWithTimer(_:)),
-                                               userInfo: nil,
-                                               repeats: false)
+                let updateTimer = Timer(timeInterval: progressUpdateInterval,
+                                        target: self,
+                                        selector: #selector(updateProgress(with:)),
+                                        userInfo: nil,
+                                        repeats: false)
                 self.progressUpdateTimer = updateTimer
-                NSRunLoop.mainRunLoop().addTimer(updateTimer, forMode: NSRunLoopCommonModes)
+                RunLoop.main.add(updateTimer, forMode: RunLoopMode.commonModes)
             }
         }
     }
@@ -90,7 +90,7 @@ class ProgressSheetController: NSWindowController {
 
     // MARK: - Action methods
 
-    @IBAction func cancel(sender: NSButton) {
+    @IBAction func cancel(_ sender: NSButton) {
         if let progress = progress  {
             progress.cancel()
         }
@@ -99,7 +99,7 @@ class ProgressSheetController: NSWindowController {
 
     // MARK: - Updating the progress UI
 
-    func updateProgressWithTimer(timer: NSTimer) {
+    func updateProgress(with timer: Timer) {
         progressUpdateTimer = nil
         updateProgress()
     }
@@ -107,7 +107,7 @@ class ProgressSheetController: NSWindowController {
 
     func updateProgress() {
         guard needsProgressUpdate,
-            let window = window where window.visible,
+            let window = window where window.isVisible,
             let localizedProgressMessageKey = localizedProgressMesageKey,
             let progress = progress where progress.completedUnitCount < progress.totalUnitCount else {
                 return

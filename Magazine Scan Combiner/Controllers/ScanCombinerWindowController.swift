@@ -27,7 +27,7 @@
 import Cocoa
 
 
-class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFieldViewDelegate {
+class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFieldViewDelegate {
     // MARK: - Outlets and UI-related properties
 
     @IBOutlet var frontPagesDropView: FileDropImageAndPathFieldView!
@@ -37,14 +37,14 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
 
     // MARK: - User input properties
 
-    var frontPagesURL: NSURL? {
+    var frontPagesURL: URL? {
         didSet {
             updateCombinePDFsButtonEnabled()
         }
     }
 
 
-    var reversedBackPagesURL: NSURL? {
+    var reversedBackPagesURL: URL? {
         didSet {
             updateCombinePDFsButtonEnabled()
         }
@@ -53,9 +53,9 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
 
     // MARK: - Concurrency
 
-    lazy var operationQueue: NSOperationQueue = {
-        let operationQueue = NSOperationQueue()
-        operationQueue.name = "\(self.dynamicType).\(unsafeAddressOf(self))"
+    lazy var operationQueue: OperationQueue = {
+        let operationQueue = OperationQueue()
+        operationQueue.name = "\(self.dynamicType).\(unsafeAddress(of: self))"
         return operationQueue
     }()
 
@@ -77,8 +77,8 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
 
     // MARK: - Action methods
 
-    @IBAction func combinePDFs(sender: NSButton) {
-        guard let directoryURL = frontPagesURL?.URLByDeletingLastPathComponent else {
+    @IBAction func combinePDFs(_ sender: NSButton) {
+        guard let directoryURL = try! frontPagesURL?.deletingLastPathComponent() else {
             NSBeep()
             return
         }
@@ -90,9 +90,9 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
         savePanel.allowedFileTypes = [kUTTypePDF as String]
         savePanel.canSelectHiddenExtension = true
 
-        savePanel.beginSheetModalForWindow(self.window!) { [unowned self] result in
+        savePanel.beginSheetModal(for: self.window!) { [unowned self] result in
             guard result == NSFileHandlingPanelOKButton,
-                let outputURL = savePanel.URL else {
+                let outputURL = savePanel.url else {
                     return
             }
 
@@ -101,7 +101,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
     }
 
 
-    private func beginCombiningPDFsWithOutputURL(outputURL: NSURL) {
+    private func beginCombiningPDFsWithOutputURL(_ outputURL: URL) {
         guard let frontPagesURL = frontPagesURL, let reversedBackPagesURL = reversedBackPagesURL else {
             return
         }
@@ -118,7 +118,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
         operation.completionBlock = { [weak self] in
             progressSheetController.progress = nil
 
-            NSOperationQueue.mainQueue().addOperationWithBlock { [weak self] in
+            OperationQueue.main.addOperation { [weak self] in
                 guard let progressSheet = progressSheetController.window else {
                     return
                 }
@@ -132,9 +132,9 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
             if let error = operation.error {
                 // If there was an error, show an alert to the user
                 self.showAlertForError(error)
-            } else if !operation.cancelled {
+            } else if !operation.isCancelled {
                 // Otherwise show the resultant PDF in the Finder if it wasn’t canceled
-                NSWorkspace.sharedWorkspace().activateFileViewerSelectingURLs([outputURL])
+                NSWorkspace.shared().activateFileViewerSelecting([outputURL])
             }
         })
 
@@ -145,40 +145,40 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
     // MARK: - Updating the UI based on user input
 
     private func updateCombinePDFsButtonEnabled() {
-        combinePDFsButton.enabled = frontPagesURL != nil && reversedBackPagesURL != nil
+        combinePDFsButton.isEnabled = frontPagesURL != nil && reversedBackPagesURL != nil
     }
 
 
     // MARK: - Showing alerts
 
-    private func showAlertForError(error: CombineScansOperation.Error) {
+    private func showAlertForError(_ error: CombineScansOperation.Error) {
         let alert = NSAlert()
-        alert.addButtonWithTitle(NSLocalizedString("OK", comment: "OK button title"))
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: "OK button title"))
 
         switch error {
-        case let .CouldNotOpenFileURL(fileURL):
+        case let .couldNotOpenFileURL(fileURL):
             updateAlert(alert, withErrorLocalizedKey: "CouldNotOpenFile", fileURL: fileURL)
-        case let  .CouldNotCreateOutputPDF(fileURL):
+        case let  .couldNotCreateOutputPDF(fileURL):
             updateAlert(alert, withErrorLocalizedKey: "CouldNotCreateFile", fileURL: fileURL)
         }
 
-        alert.beginSheetModalForWindow(self.window!, completionHandler: nil)
+        alert.beginSheetModal(for: self.window!, completionHandler: nil)
     }
 
 
-    private func updateAlert(alert: NSAlert, withErrorLocalizedKey key: String, fileURL: NSURL) {
+    private func updateAlert(_ alert: NSAlert, withErrorLocalizedKey key: String, fileURL: URL) {
         alert.messageText = NSLocalizedString("Error.\(key).MessageText", comment: "")
         alert.informativeText = String.localizedStringWithFormat(NSLocalizedString("Error.\(key).InformativeText.Format", comment: ""),
-                                                                 fileURL.path!.stringByAbbreviatingWithTildeInPath)
+                                                                 fileURL.path!.abbreviatingWithTildeInPath)
     }
 
 
     // MARK: - File Drop Image and Path Field View delegate
 
-    func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool {
+    func fileDropImageAndPathFieldView(_ view: FileDropImageAndPathFieldView, shouldAcceptDraggedFileURL fileURL: URL) -> Bool {
         do {
             var resourceValue: AnyObject? = nil
-            try fileURL.getResourceValue(&resourceValue, forKey: NSURLTypeIdentifierKey)
+            try (fileURL as NSURL).getResourceValue(&resourceValue, forKey: URLResourceKey.typeIdentifierKey)
             guard let fileType = resourceValue as? String else {
                 return false
             }
@@ -190,7 +190,7 @@ class ScanCombinerWindowController: NSWindowController, FileDropImageAndPathFiel
     }
 
 
-    func fileDropImageAndPathFieldView(view: FileDropImageAndPathFieldView, didReceiveDroppedFileURL fileURL: NSURL) {
+    func fileDropImageAndPathFieldView(_ view: FileDropImageAndPathFieldView, didReceiveDroppedFileURL fileURL: URL) {
         if view == frontPagesDropView {
             self.frontPagesURL = fileURL
         } else {

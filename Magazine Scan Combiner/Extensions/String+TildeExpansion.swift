@@ -35,8 +35,8 @@ extension String {
     /// receiver’s initial component can’t be expanded.
     ///
     /// - note:  This method only works with file paths (not, for example, string representations of URLs).
-    var stringByExpandingTildeInPath: String {
-        return (self as NSString).stringByExpandingTildeInPath
+    var expandingTildeInPath: String {
+        return (self as NSString).expandingTildeInPath
     }
 
 
@@ -53,7 +53,7 @@ extension String {
     ///     would be unchanged from the original. However, if you specified the same path for an app not
     ///     in a sandbox, this method would replace the `/Users/<current_user>` portion of the path with
     ///     a tilde.
-    var stringByAbbreviatingWithTildeInPath: String {
-        return (self as NSString).stringByAbbreviatingWithTildeInPath
+    var abbreviatingWithTildeInPath: String {
+        return (self as NSString).abbreviatingWithTildeInPath
     }
 }

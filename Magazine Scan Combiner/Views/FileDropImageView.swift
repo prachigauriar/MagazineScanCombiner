@@ -52,13 +52,13 @@ protocol FileDropImageViewDelegate {
     /// - parameter imageView: The file drop image view.
     /// - parameter fileURL: A file URL for the file being dragged onto the image view.
     /// - returns: Whether the image view should accept the file.
-    func fileDropImageView(imageView: FileDropImageView, shouldAcceptDraggedFileURL fileURL: NSURL) -> Bool
+    func fileDropImageView(_ imageView: FileDropImageView, shouldAcceptDraggedFileURL fileURL: URL) -> Bool
 
     /// Notifies the receiver that the specified file URL has been dropped on the file drop image view.
     ///
     /// - parameter imageView: The file drop image view.
     /// - parameter fileURL: The file URL for the file that was dropped.
-    func fileDropImageView(imageView: FileDropImageView, didReceiveDroppedFileURL fileURL: NSURL)
+    func fileDropImageView(_ imageView: FileDropImageView, didReceiveDroppedFileURL fileURL: URL)
 }
 
 
@@ -68,109 +68,109 @@ protocol FileDropImageViewDelegate {
 /// file is dropped onto the instance, the file drop image view will update its image to the file’s
 /// icon or a thumbnail of the file’s contents if the file is an image. It will then notify the
 /// delegate of the dropped file’s URL.
-@IBDesignable class FileDropImageView: NSImageView {
+@IBDesignable class FileDropImageView : NSImageView {
     /// The instance’s delegate
     var delegate: FileDropImageViewDelegate?
 
-    private var _fileURL: NSURL?
+    private var _fileURL: URL?
 
     /// The instance’s file URL
-    var fileURL: NSURL? {
+    var fileURL: URL? {
         get { return _fileURL }
         set {
             _fileURL = newValue
-            image = iconForFileURL(newValue)
+            image = icon(for: newValue)
         }
     }
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        registerForDraggedTypes([kUTTypeFileURL as String])
+        register(forDraggedTypes: [kUTTypeFileURL as String])
     }
 
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        registerForDraggedTypes([kUTTypeFileURL as String])
+        register(forDraggedTypes: [kUTTypeFileURL as String])
     }
 
 
-    override func drawRect(dirtyRect: NSRect) {
-        if highlighted {
-            NSColor.grayColor().colorWithAlphaComponent(0.2).setFill()
+    override func draw(_ dirtyRect: NSRect) {
+        if isHighlighted {
+            NSColor.gray().withAlphaComponent(0.2).setFill()
             let highlighRectPath = NSBezierPath(rect: bounds.insetBy(dx: 2, dy: 2))
             highlighRectPath.fill()
         }
 
-        super.drawRect(dirtyRect)
+        super.draw(dirtyRect)
     }
 
 
     // MARK: - Drag Handling
 
-    private func fileURLForDraggingInfo(draggingInfo: NSDraggingInfo) -> NSURL? {
+    private func fileURL(for draggingInfo: NSDraggingInfo) -> URL? {
         guard draggingInfo.draggingPasteboard().pasteboardItems?.count == 1,
-            let fileURL = NSURL.init(fromPasteboard: draggingInfo.draggingPasteboard()) where fileURL.fileURL else {
+            let fileURL = NSURL(from: draggingInfo.draggingPasteboard()) as URL? where fileURL.isFileURL else {
                 return nil
         }
 
         guard let delegate = delegate else {
-            return fileURL
+            return fileURL as URL
         }
 
         return delegate.fileDropImageView(self, shouldAcceptDraggedFileURL: fileURL) ? fileURL : nil
     }
 
 
-    private func iconForFileURL(fileURL: NSURL?) -> NSImage? {
+    private func icon(for fileURL: URL?) -> NSImage? {
         guard let filePath = fileURL?.path else {
             return nil
         }
 
-        return NSWorkspace.sharedWorkspace().iconForFile(filePath)
+        return NSWorkspace.shared().icon(forFile: filePath)
     }
 
 
-    override func draggingEntered(sender: NSDraggingInfo) -> NSDragOperation {
-        guard let _ = fileURLForDraggingInfo(sender) else {
-            return .None
+    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        guard let _ = fileURL(for: sender) else {
+            return NSDragOperation()
         }
 
-        highlighted = true
+        isHighlighted = true
         needsDisplay = true
 
-        return .Copy
+        return .copy
     }
 
 
-    override func draggingEnded(sender: NSDraggingInfo?) {
-        highlighted = false
-        needsDisplay = true
-    }
-
-
-    override func draggingExited(sender: NSDraggingInfo?) {
-        highlighted = false
+    override func draggingEnded(_ sender: NSDraggingInfo?) {
+        isHighlighted = false
         needsDisplay = true
     }
 
 
-    override func prepareForDragOperation(sender: NSDraggingInfo) -> Bool {
-        return fileURLForDraggingInfo(sender) != nil
+    override func draggingExited(_ sender: NSDraggingInfo?) {
+        isHighlighted = false
+        needsDisplay = true
     }
 
 
-    override func performDragOperation(sender: NSDraggingInfo) -> Bool {
-        guard let fileURL = fileURLForDraggingInfo(sender) else {
+    override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        return fileURL(for: sender) != nil
+    }
+
+
+    override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        guard let fileURL = fileURL(for: sender) else {
             return false
         }
 
         // Set _fileURL instead of fileURL so that we don’t automatically update our image
         _fileURL = fileURL
-        if NSImage.canInitWithPasteboard(sender.draggingPasteboard()) {
+        if NSImage.canInit(with: sender.draggingPasteboard()) {
             image = NSImage.init(pasteboard: sender.draggingPasteboard())
         } else {
-            image = iconForFileURL(fileURL)
+            image = icon(for: fileURL)
         }
 
         delegate?.fileDropImageView(self, didReceiveDroppedFileURL: fileURL)

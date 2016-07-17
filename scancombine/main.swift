@@ -30,7 +30,7 @@ import Foundation
 /// Prints command-line usage and exits with status 1.
 @noreturn func printUsageAndExit() {
     var standardErrorStream = StandardErrorStream()
-    print("Usage: \(NSProcessInfo.processInfo().processName) frontPagesPDF reversedBackPagesPDF outputPDF", toStream: &standardErrorStream)
+    print("Usage: \(ProcessInfo.processInfo.processName) frontPagesPDF reversedBackPagesPDF outputPDF", to: &standardErrorStream)
     exit(1)
 }
 
@@ -40,9 +40,14 @@ import Foundation
 ///     relative to the process’s current working directory. If the path begins with a “~” or
 ///     “~*user*”, the tilde is expanded before converting it into a URL.
 /// - returns: A file URL for the specified file path if it is reachable; `nil` otherwise.
-func validatedFileURLWithPath(path: String) -> NSURL? {
-    let URL = NSURL(fileURLWithPath: path.stringByExpandingTildeInPath)
-    return URL.checkResourceIsReachableAndReturnError(nil) ? URL : nil
+func validatedFileURL(withPath path: String) -> URL? {
+    let url = URL(fileURLWithPath: path.expandingTildeInPath)
+
+    guard let isReachable = try? url.checkResourceIsReachable() where isReachable else {
+        return nil
+    }
+
+    return url
 }
 
 
@@ -50,8 +55,8 @@ func validatedFileURLWithPath(path: String) -> NSURL? {
 /// occurs while parsing command-line arguments, prints an error message and exits.
 //
 /// - returns: A tuple containing the command-line arguments as URLs.
-func parseCommandLineArguments() -> (frontPagesFileURL: NSURL, reversedBackPagesFileURL: NSURL, outputFileURL: NSURL) {
-    let userArguments = NSProcessInfo.processInfo().userArguments
+func parseCommandLineArguments() -> (frontPagesFileURL: URL, reversedBackPagesFileURL: URL, outputFileURL: URL) {
+    let userArguments = ProcessInfo.processInfo.userArguments
     var standardErrorStream = StandardErrorStream()
 
     guard userArguments.count == 3 else {
@@ -59,18 +64,18 @@ func parseCommandLineArguments() -> (frontPagesFileURL: NSURL, reversedBackPages
     }
 
     let frontPagesPath = userArguments[0]
-    guard let frontPagesFileURL = validatedFileURLWithPath(frontPagesPath) else {
-        print("Could not open front pages PDF \(frontPagesPath)", toStream: &standardErrorStream)
+    guard let frontPagesFileURL = validatedFileURL(withPath: frontPagesPath) else {
+        print("Could not open front pages PDF \(frontPagesPath)", to: &standardErrorStream)
         exit(2)
     }
 
     let reversedBackPagesPath = userArguments[1]
-    guard let reversedBackPagesFileURL = validatedFileURLWithPath(reversedBackPagesPath) else {
-        print("Could not open reversed back pages PDF \(reversedBackPagesPath)", toStream: &standardErrorStream)
+    guard let reversedBackPagesFileURL = validatedFileURL(withPath: reversedBackPagesPath) else {
+        print("Could not open reversed back pages PDF \(reversedBackPagesPath)", to: &standardErrorStream)
         exit(2)
     }
 
-    let outputFileURL = NSURL(fileURLWithPath: userArguments[2].stringByExpandingTildeInPath)
+    let outputFileURL = URL(fileURLWithPath: userArguments[2].expandingTildeInPath)
 
     return (frontPagesFileURL, reversedBackPagesFileURL, outputFileURL)
 }
@@ -84,15 +89,15 @@ operation.start()
 
 // When the operation is done, if it doesn’t have an error, everything succeeded
 guard let error = operation.error else {
-    print("Successfully combined PDFs and saved output to \(outputPDFURL.path!.stringByAbbreviatingWithTildeInPath).")
+    print("Successfully combined PDFs and saved output to \(outputPDFURL.path!.abbreviatingWithTildeInPath).")
     exit(0)
 }
 
 // Otherwise, print an appropriate error message
 var standardErrorStream = StandardErrorStream()
 switch error {
-case let .CouldNotOpenFileURL(fileURL):
-    print("Could not open input PDF \(fileURL.path!.stringByAbbreviatingWithTildeInPath).", toStream: &standardErrorStream)
-case let  .CouldNotCreateOutputPDF(fileURL):
-    print("Could not create output PDF \(fileURL.path!.stringByAbbreviatingWithTildeInPath).", toStream: &standardErrorStream)
+case let .couldNotOpenFileURL(fileURL):
+    print("Could not open input PDF \(fileURL.path!.abbreviatingWithTildeInPath).", to: &standardErrorStream)
+case let  .couldNotCreateOutputPDF(fileURL):
+    print("Could not create output PDF \(fileURL.path!.abbreviatingWithTildeInPath).", to: &standardErrorStream)
 }

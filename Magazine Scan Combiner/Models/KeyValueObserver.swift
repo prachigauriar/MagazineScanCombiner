@@ -56,7 +56,7 @@ class KeyValueObserver<ObservedObjectType: NSObject>: NSObject {
     /// - parameter options: The key-value observing options to use when registering for
     ///     change notifications
     /// - parameter changeBlock: The block to invoke whenever a change is observed
-    init(object: ObservedObjectType, keyPath: String, options: NSKeyValueObservingOptions = .Initial, changeBlock: (ObservedObjectType) -> ()) {
+    init(object: ObservedObjectType, keyPath: String, options: NSKeyValueObservingOptions = .initial, changeBlock: (ObservedObjectType) -> ()) {
         self.object = object
         self.keyPath = keyPath
         self.changeBlock = changeBlock
@@ -72,7 +72,7 @@ class KeyValueObserver<ObservedObjectType: NSObject>: NSObject {
     }
 
 
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: AnyObject?, change: [NSKeyValueChangeKey : AnyObject]?, context: UnsafeMutablePointer<Void>?) {
         changeBlock(self.object)
     }
 }
