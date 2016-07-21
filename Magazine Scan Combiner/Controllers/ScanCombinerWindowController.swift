@@ -39,14 +39,14 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
     var frontPagesURL: URL? {
         didSet {
-            updateCombinePDFsButtonEnabled()
+            updateCombinePDFsButtonEnabledState()
         }
     }
 
 
     var reversedBackPagesURL: URL? {
         didSet {
-            updateCombinePDFsButtonEnabled()
+            updateCombinePDFsButtonEnabledState()
         }
     }
 
@@ -71,7 +71,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
         super.windowDidLoad()
         frontPagesDropView.delegate = self
         reversedBackPagesDropView.delegate = self
-        updateCombinePDFsButtonEnabled()
+        updateCombinePDFsButtonEnabledState()
     }
 
 
@@ -144,7 +144,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
     // MARK: - Updating the UI based on user input
 
-    private func updateCombinePDFsButtonEnabled() {
+    private func updateCombinePDFsButtonEnabledState() {
         combinePDFsButton.isEnabled = frontPagesURL != nil && reversedBackPagesURL != nil
     }
 

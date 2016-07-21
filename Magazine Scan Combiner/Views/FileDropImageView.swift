@@ -110,7 +110,8 @@ protocol FileDropImageViewDelegate {
 
     private func fileURL(for draggingInfo: NSDraggingInfo) -> URL? {
         guard draggingInfo.draggingPasteboard().pasteboardItems?.count == 1,
-            let fileURL = NSURL(from: draggingInfo.draggingPasteboard()) as URL? where fileURL.isFileURL else {
+            let fileURL = URL(from: draggingInfo.draggingPasteboard()),
+            fileURL.isFileURL else {
                 return nil
         }
 
@@ -168,7 +169,7 @@ protocol FileDropImageViewDelegate {
         // Set _fileURL instead of fileURL so that we don’t automatically update our image
         _fileURL = fileURL
         if NSImage.canInit(with: sender.draggingPasteboard()) {
-            image = NSImage.init(pasteboard: sender.draggingPasteboard())
+            image = NSImage(pasteboard: sender.draggingPasteboard())
         } else {
             image = icon(for: fileURL)
         }

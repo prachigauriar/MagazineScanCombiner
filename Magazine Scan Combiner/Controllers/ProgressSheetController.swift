@@ -107,9 +107,11 @@ class ProgressSheetController : NSWindowController {
 
     func updateProgress() {
         guard needsProgressUpdate,
-            let window = window where window.isVisible,
+            let window = window,
+            window.isVisible,
             let localizedProgressMessageKey = localizedProgressMesageKey,
-            let progress = progress where progress.completedUnitCount < progress.totalUnitCount else {
+            let progress = progress,
+            progress.completedUnitCount < progress.totalUnitCount else {
                 return
         }
 

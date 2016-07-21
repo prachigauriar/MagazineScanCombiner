@@ -27,8 +27,8 @@
 import Foundation
 
 
-/// This extension to String simply exposes tilde path expansion methods that are only declared on
-/// NSString to String instances without casting.
+/// This extension simply adds `NSString`’s tilde path expansion methods to String so that they can be
+/// used without casting.
 extension String {
     /// A new string made by expanding the initial component of the receiver, if it begins with “~”
     /// or “~*user*”, to its full path value. Returns a new string matching the receiver if the

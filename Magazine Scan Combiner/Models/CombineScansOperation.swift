@@ -121,7 +121,7 @@ class CombineScansOperation : ConcurrentProgressReportingOperation {
         progress.totalUnitCount = Int64(pageCount)
 
         for page in ScannedPageSequence(frontPagesDocument: frontPagesDocument, reversedBackPagesDocument: reversedBackPagesDocument) {
-            if isCancelled {
+            guard !isCancelled else {
                 break
             }
 
@@ -146,7 +146,7 @@ class CombineScansOperation : ConcurrentProgressReportingOperation {
 }
 
 
-/// Instances of `ScannedPagesIterator` generate a sequence of `CGPDFPage` objects from two PDFs.
+/// Instances of `ScannedPagesSequence` generate a sequence of `CGPDFPage` objects from two PDFs.
 /// The order of the pages is that described in the `CombineScansOperation` class documentation.
 private struct ScannedPageSequence : Sequence, IteratorProtocol {
     /// Indicates whether the next page should come from the front pages PDF.
@@ -159,7 +159,7 @@ private struct ScannedPageSequence : Sequence, IteratorProtocol {
     /// in reverse order.
     var backPageIterator: PDFDocumentPageIterator
 
-    /// Initializes a newly created `ScannedPagesIterator` instance with the specified front pages PDF
+    /// Initializes a newly created `ScannedPagesSequence` instance with the specified front pages PDF
     /// document and reversed back pages PDF document.
     init(frontPagesDocument : CGPDFDocument, reversedBackPagesDocument: CGPDFDocument) {
         isNextPageFromFront = true
@@ -204,7 +204,7 @@ private struct PDFDocumentPageIterator : IteratorProtocol {
     /// Initializes a newly created `PDFDocumentPageIterator` with the specified document and page numbers.
     /// - parameter document: The PDF document from which the instance gets pages.
     /// - parameter pageNumbers: The sequence of page numbers that the generator should use when getting pages.
-    init<IntSequenceType: Sequence where IntSequenceType.Iterator.Element == Int>(document: CGPDFDocument, pageNumbers: IntSequenceType) {
+    init<IntSequence: Sequence where IntSequence.Iterator.Element == Int>(document: CGPDFDocument, pageNumbers: IntSequence) {
         self.document = document
         pageNumberIterator = AnyIterator(pageNumbers.makeIterator())
     }
