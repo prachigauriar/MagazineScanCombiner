@@ -72,7 +72,10 @@ class KeyValueObserver<ObservedType: NSObject> : NSObject {
     }
 
 
-    override func observeValue(forKeyPath keyPath: String?, of object: AnyObject?, change: [NSKeyValueChangeKey : AnyObject]?, context: UnsafeMutablePointer<Void>?) {
+    override func observeValue(forKeyPath _: String?,
+                               of _: AnyObject?,
+                               change: [NSKeyValueChangeKey : AnyObject]?,
+                               context: UnsafeMutablePointer<Void>?) {
         changeBlock(self.object)
     }
 }

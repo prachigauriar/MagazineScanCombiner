@@ -96,12 +96,12 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
                     return
             }
 
-            self.beginCombiningPDFs(savingTo: outputURL)
+            self.beginCombiningPDFs(withOutputURL: outputURL)
         }
     }
 
 
-    private func beginCombiningPDFs(savingTo outputURL: URL) {
+    private func beginCombiningPDFs(withOutputURL outputURL: URL) {
         guard let frontPagesURL = frontPagesURL, let reversedBackPagesURL = reversedBackPagesURL else {
             return
         }
