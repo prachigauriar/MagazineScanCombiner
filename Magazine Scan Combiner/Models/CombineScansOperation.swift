@@ -182,8 +182,6 @@ private struct ScannedPageSequence : Sequence, IteratorProtocol {
 
 
     mutating func next() -> CGPDFPage? {
-        let page: CGPDFPage?
-
         defer { isNextPageFromFront = !isNextPageFromFront }
 
         if isNextPageFromFront {
