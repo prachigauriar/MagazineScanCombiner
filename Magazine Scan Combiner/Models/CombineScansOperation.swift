@@ -28,7 +28,7 @@ import Cocoa
 
 /// The `ErrorBox` type is used to box an error inside a struct. It’s necessary to use `ErrorBox`
 /// to store `Error` properties on `NSObject` subclasses in Xcode 8b4 and 8b5 due to a bug.
-struct ErrorBox<ErrorType: Error> {
+struct ErrorBox<ErrorType : Error> {
     let error: ErrorType
 
     init(_ error: ErrorType) {
