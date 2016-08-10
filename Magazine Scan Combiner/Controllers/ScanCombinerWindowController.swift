@@ -78,7 +78,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
     // MARK: - Action methods
 
     @IBAction func combinePDFs(_ sender: NSButton) {
-        guard let directoryURL = try! frontPagesURL?.deletingLastPathComponent() else {
+        guard let directoryURL = frontPagesURL?.deletingLastPathComponent() else {
             NSBeep()
             return
         }
@@ -129,7 +129,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
         // Begin showing the progress sheet. On dismiss, either show an error or show the resultant PDF file
         self.window?.beginSheet(progressSheetController.window!, completionHandler: { [unowned self] _ in
-            if let error = operation.error {
+            if let error = operation.errorBox?.error {
                 // If there was an error, show an alert to the user
                 self.showAlert(for: error)
             } else if !operation.isCancelled {
@@ -151,7 +151,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
     // MARK: - Showing alerts
 
-    private func showAlert(for error: CombineScansOperation.Error) {
+    private func showAlert(for error: CombineScansError) {
         let alert = NSAlert()
         alert.addButton(withTitle: NSLocalizedString("OK", comment: "OK button title"))
 
@@ -169,7 +169,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
     private func updateAlert(_ alert: NSAlert, withErrorLocalizedKey key: String, fileURL: URL) {
         alert.messageText = NSLocalizedString("Error.\(key).MessageText", comment: "")
         alert.informativeText = String.localizedStringWithFormat(NSLocalizedString("Error.\(key).InformativeText.Format", comment: ""),
-                                                                 fileURL.path!.abbreviatingWithTildeInPath)
+                                                                 fileURL.path.abbreviatingWithTildeInPath)
     }
 
 

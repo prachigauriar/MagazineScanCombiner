@@ -97,7 +97,7 @@ protocol FileDropImageViewDelegate {
 
     override func draw(_ dirtyRect: NSRect) {
         if isHighlighted {
-            NSColor.gray().withAlphaComponent(0.2).setFill()
+            NSColor.gray.withAlphaComponent(0.2).setFill()
             let highlighRectPath = NSBezierPath(rect: bounds.insetBy(dx: 2, dy: 2))
             highlighRectPath.fill()
         }

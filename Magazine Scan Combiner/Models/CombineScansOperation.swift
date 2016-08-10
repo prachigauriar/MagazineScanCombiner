@@ -26,6 +26,26 @@
 
 import Cocoa
 
+/// The `ErrorBox` type is used to box an error inside a struct. It’s necessary to use `ErrorBox`
+/// to store `Error` properties on `NSObject` subclasses in Xcode 8b4 and 8b5 due to a bug.
+struct ErrorBox<ErrorType: Error> {
+    let error: ErrorType
+
+    init(_ error: ErrorType) {
+        self.error = error
+    }
+}
+
+
+/// The types of errors that can occur during the execution of the operation.
+enum CombineScansError : Error {
+    /// Indicates that the input PDF located at the associated `URL` could not be opened.
+    case couldNotOpenFileURL(URL)
+
+    /// Indicates that an output PDF could not be created at the associated `URL`.
+    case couldNotCreateOutputPDF(URL)
+}
+
 
 /// `CombineScansOperation` is an `Operation` subclass that combines the pages of two PDFs into a
 /// single new PDF. `CombineScansOperations` are meant to run concurrently in an operation queue,
@@ -44,14 +64,6 @@ import Cocoa
 /// `totalUnitCount` is the total number of pages that will be in the output PDF; its
 /// `completedUnitCount` is the number of pages that have been written to the output PDF so far.
 class CombineScansOperation : ConcurrentProgressReportingOperation {
-    /// The types of errors that can occur during the execution of the operation.
-    enum Error : ErrorProtocol {
-        /// Indicates that the input PDF located at the associated `URL` could not be opened.
-        case couldNotOpenFileURL(URL)
-
-        /// Indicates that an output PDF could not be created at the associated `URL`.
-        case couldNotCreateOutputPDF(URL)
-    }
 
     /// The file URL of the PDF whose contents are the front pages of a printed work.
     let frontPagesPDFURL: URL
@@ -64,9 +76,8 @@ class CombineScansOperation : ConcurrentProgressReportingOperation {
 
     /// Contains an error that occurred during execution of the instance. If nil, no error occurred.
     /// If this is set, the operation finished unsuccessfully.
-    private(set) var error: Error?
+    private(set) var errorBox: ErrorBox<CombineScansError>?
 
-    
     /// Initializes a newly created `CombineScansOperation` instance with the specified front pages PDF
     /// URL, reversed back pages PDF URL, and output PDF URL.
     ///
@@ -101,19 +112,19 @@ class CombineScansOperation : ConcurrentProgressReportingOperation {
 
         // If we couldn’t open the front pages PDF, set our error, finish, and exit
         guard let frontPagesDocument = CGPDFDocument(frontPagesPDFURL) else {
-            error = Error.couldNotOpenFileURL(frontPagesPDFURL)
+            errorBox = ErrorBox(.couldNotOpenFileURL(frontPagesPDFURL))
             return
         }
 
         // If we couldn’t open the reversed back pages PDF, set our error, finish, and exit
         guard let reversedBackPagesDocument = CGPDFDocument(reversedBackPagesPDFURL) else {
-            error = Error.couldNotOpenFileURL(reversedBackPagesPDFURL)
+            errorBox = ErrorBox(.couldNotOpenFileURL(reversedBackPagesPDFURL))
             return
         }
 
         // If we couldn’t create the output PDF context, set our error, finish, and exit
         guard let outputPDFContext = CGContext(outputPDFURL, mediaBox: nil, nil) else {
-            error = Error.couldNotCreateOutputPDF(outputPDFURL)
+            errorBox = ErrorBox(.couldNotCreateOutputPDF(outputPDFURL))
             return
         }
 
