@@ -64,7 +64,6 @@ enum CombineScansError : Error {
 /// `totalUnitCount` is the total number of pages that will be in the output PDF; its
 /// `completedUnitCount` is the number of pages that have been written to the output PDF so far.
 class CombineScansOperation : ConcurrentProgressReportingOperation {
-
     /// The file URL of the PDF whose contents are the front pages of a printed work.
     let frontPagesPDFURL: URL
 
@@ -163,10 +162,10 @@ private struct ScannedPageSequence : Sequence, IteratorProtocol {
     /// Indicates whether the next page should come from the front pages PDF.
     var isNextPageFromFront: Bool
 
-    /// The generator for pages from the front pages PDF document.
+    /// The iterator for pages from the front pages PDF document.
     var frontPageIterator: PDFDocumentPageIterator
 
-    /// The generator for pages from the back pages PDF document. This generator returns pages
+    /// The iterator for pages from the back pages PDF document. This iterator returns pages
     /// in reverse order.
     var backPageIterator: PDFDocumentPageIterator
 
@@ -196,12 +195,12 @@ private struct ScannedPageSequence : Sequence, IteratorProtocol {
 }
 
 
-/// Instances of `PDFDocumentPageIterator` generate a sequence of `CGPDFPage` objects from a single PDF
-/// document using a sequence of page numbers specified at initialization time. For example, a generator
+/// Instances of `PDFDocumentPageIterator` iterate over a sequence of `CGPDFPage` objects from a single PDF
+/// document using a sequence of page numbers specified at initialization time. For example, an iterator
 /// initialized like
 ///
 /// ```
-/// var generator = PDFDocumentPageIterator(document, [1, 3, 2, 4, 4])
+/// var iterator = PDFDocumentPageIterator(document, [1, 3, 2, 4, 4])
 /// ```
 ///
 /// would return the 1st, 3rd, 2nd, 4th, and 4th pages of the specified PDF document.
@@ -209,13 +208,13 @@ private struct PDFDocumentPageIterator : IteratorProtocol {
     /// The PDF document from which the instance gets pages.
     let document: CGPDFDocument
 
-    /// An Int generator that returns the next page number to get from the PDF document.
+    /// An Int iterator that returns the next page number to get from the PDF document.
     var pageNumberIterator: AnyIterator<Int>
 
     /// Initializes a newly created `PDFDocumentPageIterator` with the specified document and page numbers.
     /// - parameter document: The PDF document from which the instance gets pages.
-    /// - parameter pageNumbers: The sequence of page numbers that the generator should use when getting pages.
-    init<IntSequence: Sequence where IntSequence.Iterator.Element == Int>(document: CGPDFDocument, pageNumbers: IntSequence) {
+    /// - parameter pageNumbers: The sequence of page numbers that the iterator should use when getting pages.
+    init<IntSequence: Sequence>(document: CGPDFDocument, pageNumbers: IntSequence) where IntSequence.Iterator.Element == Int {
         self.document = document
         pageNumberIterator = AnyIterator(pageNumbers.makeIterator())
     }
