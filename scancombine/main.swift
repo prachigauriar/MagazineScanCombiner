@@ -90,7 +90,7 @@ let operation = CombineScansOperation(frontPagesPDFURL: frontPagesPDFURL, revers
 operation.start()
 
 // When the operation is done, if it doesn’t have an error, everything succeeded
-guard let error = operation.errorBox?.error else {
+guard let error = operation.error else {
     print("Successfully combined PDFs and saved output to \(outputPDFURL.path.abbreviatingWithTildeInPath).")
     exit(0)
 }

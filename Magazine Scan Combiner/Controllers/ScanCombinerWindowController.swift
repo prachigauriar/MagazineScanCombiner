@@ -129,7 +129,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
         // Begin showing the progress sheet. On dismiss, either show an error or show the resultant PDF file
         self.window?.beginSheet(progressSheetController.window!, completionHandler: { [unowned self] _ in
-            if let error = operation.errorBox?.error {
+            if let error = operation.error {
                 // If there was an error, show an alert to the user
                 self.showAlert(for: error)
             } else if !operation.isCancelled {

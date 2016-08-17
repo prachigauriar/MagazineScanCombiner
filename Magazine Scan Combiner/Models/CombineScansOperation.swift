@@ -26,17 +26,6 @@
 
 import Cocoa
 
-/// The `ErrorBox` type is used to box an error inside a struct. It’s necessary to use `ErrorBox`
-/// to store `Error` properties on `NSObject` subclasses in Xcode 8b4 and 8b5 due to a bug.
-struct ErrorBox<ErrorType : Error> {
-    let error: ErrorType
-
-    init(_ error: ErrorType) {
-        self.error = error
-    }
-}
-
-
 /// The types of errors that can occur during the execution of the operation.
 enum CombineScansError : Error {
     /// Indicates that the input PDF located at the associated `URL` could not be opened.
@@ -75,7 +64,7 @@ class CombineScansOperation : ConcurrentProgressReportingOperation {
 
     /// Contains an error that occurred during execution of the instance. If nil, no error occurred.
     /// If this is set, the operation finished unsuccessfully.
-    private(set) var errorBox: ErrorBox<CombineScansError>?
+    private(set) var error: CombineScansError?
 
     /// Initializes a newly created `CombineScansOperation` instance with the specified front pages PDF
     /// URL, reversed back pages PDF URL, and output PDF URL.
@@ -111,19 +100,19 @@ class CombineScansOperation : ConcurrentProgressReportingOperation {
 
         // If we couldn’t open the front pages PDF, set our error, finish, and exit
         guard let frontPagesDocument = CGPDFDocument(frontPagesPDFURL as CFURL) else {
-            errorBox = ErrorBox(.couldNotOpenFileURL(frontPagesPDFURL))
+            error = .couldNotOpenFileURL(frontPagesPDFURL)
             return
         }
 
         // If we couldn’t open the reversed back pages PDF, set our error, finish, and exit
         guard let reversedBackPagesDocument = CGPDFDocument(reversedBackPagesPDFURL as CFURL) else {
-            errorBox = ErrorBox(.couldNotOpenFileURL(reversedBackPagesPDFURL))
+            error = .couldNotOpenFileURL(reversedBackPagesPDFURL)
             return
         }
 
         // If we couldn’t create the output PDF context, set our error, finish, and exit
         guard let outputPDFContext = CGContext(outputPDFURL as CFURL, mediaBox: nil, nil) else {
-            errorBox = ErrorBox(.couldNotCreateOutputPDF(outputPDFURL))
+            error = .couldNotCreateOutputPDF(outputPDFURL)
             return
         }
 
