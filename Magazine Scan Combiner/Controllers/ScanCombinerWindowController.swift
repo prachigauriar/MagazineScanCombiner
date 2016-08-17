@@ -55,7 +55,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
     lazy var operationQueue: OperationQueue = {
         let operationQueue = OperationQueue()
-        operationQueue.name = "\(self.dynamicType).\(unsafeAddress(of: self))"
+        operationQueue.name = "\(type(of: self)).\(Unmanaged.passUnretained(self).toOpaque())"
         return operationQueue
     }()
 
@@ -183,7 +183,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
                 return false
             }
 
-            return UTTypeConformsTo(fileType, kUTTypePDF)
+            return UTTypeConformsTo(fileType as CFString, kUTTypePDF)
         } catch {
             return false
         }

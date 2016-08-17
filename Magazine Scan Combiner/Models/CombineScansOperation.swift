@@ -110,19 +110,19 @@ class CombineScansOperation : ConcurrentProgressReportingOperation {
         defer { isFinished = true }
 
         // If we couldn’t open the front pages PDF, set our error, finish, and exit
-        guard let frontPagesDocument = CGPDFDocument(frontPagesPDFURL) else {
+        guard let frontPagesDocument = CGPDFDocument(frontPagesPDFURL as CFURL) else {
             errorBox = ErrorBox(.couldNotOpenFileURL(frontPagesPDFURL))
             return
         }
 
         // If we couldn’t open the reversed back pages PDF, set our error, finish, and exit
-        guard let reversedBackPagesDocument = CGPDFDocument(reversedBackPagesPDFURL) else {
+        guard let reversedBackPagesDocument = CGPDFDocument(reversedBackPagesPDFURL as CFURL) else {
             errorBox = ErrorBox(.couldNotOpenFileURL(reversedBackPagesPDFURL))
             return
         }
 
         // If we couldn’t create the output PDF context, set our error, finish, and exit
-        guard let outputPDFContext = CGContext(outputPDFURL, mediaBox: nil, nil) else {
+        guard let outputPDFContext = CGContext(outputPDFURL as CFURL, mediaBox: nil, nil) else {
             errorBox = ErrorBox(.couldNotCreateOutputPDF(outputPDFURL))
             return
         }
