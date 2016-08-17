@@ -26,10 +26,12 @@
 
 import Foundation
 
+// Global standard error stream
+var standardErrorStream = StandardErrorStream()
+
 
 /// Prints command-line usage and exits with status 1.
-@noreturn func printUsageAndExit() {
-    var standardErrorStream = StandardErrorStream()
+func printUsageAndExit() -> Never  {
     print("Usage: \(ProcessInfo.processInfo.processName) frontPagesPDF reversedBackPagesPDF outputPDF", to: &standardErrorStream)
     exit(1)
 }
@@ -43,7 +45,7 @@ import Foundation
 func validatedFileURL(withPath path: String) -> URL? {
     let url = URL(fileURLWithPath: path.expandingTildeInPath)
 
-    guard let isReachable = try? url.checkResourceIsReachable() where isReachable else {
+    guard let isReachable = try? url.checkResourceIsReachable() , isReachable else {
         return nil
     }
 
@@ -88,16 +90,15 @@ let operation = CombineScansOperation(frontPagesPDFURL: frontPagesPDFURL, revers
 operation.start()
 
 // When the operation is done, if it doesn’t have an error, everything succeeded
-guard let error = operation.error else {
-    print("Successfully combined PDFs and saved output to \(outputPDFURL.path!.abbreviatingWithTildeInPath).")
+guard let error = operation.errorBox?.error else {
+    print("Successfully combined PDFs and saved output to \(outputPDFURL.path.abbreviatingWithTildeInPath).")
     exit(0)
 }
 
 // Otherwise, print an appropriate error message
-var standardErrorStream = StandardErrorStream()
 switch error {
 case let .couldNotOpenFileURL(fileURL):
-    print("Could not open input PDF \(fileURL.path!.abbreviatingWithTildeInPath).", to: &standardErrorStream)
+    print("Could not open input PDF \(fileURL.path.abbreviatingWithTildeInPath).", to: &standardErrorStream)
 case let  .couldNotCreateOutputPDF(fileURL):
-    print("Could not create output PDF \(fileURL.path!.abbreviatingWithTildeInPath).", to: &standardErrorStream)
+    print("Could not create output PDF \(fileURL.path.abbreviatingWithTildeInPath).", to: &standardErrorStream)
 }

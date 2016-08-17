@@ -56,7 +56,7 @@ extension ProcessInfo {
 /// var standardError = StandardErrorStream()
 /// print("Error: …", to: standardError)
 /// ```
-struct StandardErrorStream : OutputStream {
+struct StandardErrorStream : TextOutputStream {
     mutating func write(_ string: String) {
         fputs(string, stderr)
     }
