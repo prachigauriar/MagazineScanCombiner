@@ -38,12 +38,12 @@ protocol FileDropImageViewDelegate {
     /// ```
     /// do {
     ///     var resourceValue: AnyObject? = nil
-    ///     try fileURL.getResourceValue(&resourceValue, forKey: NSURLTypeIdentifierKey)
+    ///     try (fileURL as NSURL).getResourceValue(&resourceValue, forKey: URLResourceKey.typeIdentifierKey)
     ///     guard let fileType = resourceValue as? String else {
     ///         return false
     ///     }
     ///
-    ///     return UTTypeConformsTo(fileType, kUTTypeSpreadsheet)
+    ///     return UTTypeConformsTo(fileType as CFString, kUTTypeSpreadsheet)
     /// } catch {
     ///     return false
     /// }
