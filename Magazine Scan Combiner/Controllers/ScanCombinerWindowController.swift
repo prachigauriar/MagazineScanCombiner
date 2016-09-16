@@ -78,7 +78,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
     // MARK: - Action methods
 
     @IBAction func combinePDFs(_ sender: NSButton) {
-        guard let directoryURL = frontPagesURL?.deletingLastPathComponent() else {
+        guard let window = window, let directoryURL = frontPagesURL?.deletingLastPathComponent() else {
             NSBeep()
             return
         }
@@ -90,7 +90,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
         savePanel.allowedFileTypes = [kUTTypePDF as String]
         savePanel.canSelectHiddenExtension = true
 
-        savePanel.beginSheetModal(for: self.window!) { [unowned self] result in
+        savePanel.beginSheetModal(for: window) { [unowned self] result in
             guard result == NSFileHandlingPanelOKButton,
                 let outputURL = savePanel.url else {
                     return
@@ -102,7 +102,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
 
     private func beginCombiningPDFs(withOutputURL outputURL: URL) {
-        guard let frontPagesURL = frontPagesURL, let reversedBackPagesURL = reversedBackPagesURL else {
+        guard let frontPagesURL = frontPagesURL, let reversedBackPagesURL = reversedBackPagesURL, let window = window else {
             return
         }
 
@@ -114,21 +114,25 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
         progressSheetController.progress = operation.progress
         progressSheetController.localizedProgressMesageKey = "CombineProgress.Format"
 
+        guard let progressSheet = progressSheetController.window else {
+            return
+        }
+
         // Add a completion block that hides the progress sheet when the operation finishes
-        operation.completionBlock = { [weak self] in
+        operation.completionBlock = { [weak window] in
             progressSheetController.progress = nil
 
-            OperationQueue.main.addOperation { [weak self] in
-                guard let progressSheet = progressSheetController.window else {
+            OperationQueue.main.addOperation { [weak window, weak progressSheet] in
+                guard let progressSheet = progressSheet else {
                     return
                 }
 
-                self?.window?.endSheet(progressSheet)
+                window?.endSheet(progressSheet)
             }
         }
 
         // Begin showing the progress sheet. On dismiss, either show an error or show the resultant PDF file
-        self.window?.beginSheet(progressSheetController.window!, completionHandler: { [unowned self] _ in
+        window.beginSheet(progressSheet, completionHandler: { [unowned self] _ in
             if let error = operation.error {
                 // If there was an error, show an alert to the user
                 self.showAlert(for: error)
@@ -138,7 +142,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
             }
         })
 
-        self.operationQueue.addOperation(operation)
+        operationQueue.addOperation(operation)
     }
 
 
@@ -192,9 +196,9 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
     func fileDropImageAndPathFieldView(_ view: FileDropImageAndPathFieldView, didReceiveDroppedFileURL fileURL: URL) {
         if view == frontPagesDropView {
-            self.frontPagesURL = fileURL
+            frontPagesURL = fileURL
         } else {
-            self.reversedBackPagesURL = fileURL
+            reversedBackPagesURL = fileURL
         }
     }
 }

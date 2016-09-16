@@ -33,7 +33,7 @@ extension ProcessInfo {
     /// The number of arguments entered by the user.
     /// This is simply one less than the total number of process arguments.
     var userArgumentCount: Int {
-        return self.arguments.count - 1
+        return arguments.count - 1
     }
 
 

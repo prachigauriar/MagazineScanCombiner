@@ -141,14 +141,14 @@ protocol FileDropImageAndPathFieldViewDelegate {
         addSubview(fileDropImageView)
         addSubview(pathField)
 
-        fileDropImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 3).isActive = true
-        fileDropImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -3).isActive = true
-        fileDropImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 3).isActive = true
+        fileDropImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3).isActive = true
+        fileDropImageView.trailingAnchor.constraint(equalTo:trailingAnchor, constant: -3).isActive = true
+        fileDropImageView.topAnchor.constraint(equalTo: topAnchor, constant: 3).isActive = true
 
         pathField.leadingAnchor.constraint(equalTo: fileDropImageView.leadingAnchor).isActive = true
         pathField.trailingAnchor.constraint(equalTo: fileDropImageView.trailingAnchor).isActive = true
         pathField.topAnchor.constraint(equalTo: fileDropImageView.bottomAnchor, constant: 8).isActive = true
-        pathField.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        pathField.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
 

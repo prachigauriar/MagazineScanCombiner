@@ -47,7 +47,7 @@ class ProgressSheetController : NSWindowController {
         didSet {
             if let progress = progress {
                 // Begin observing changes to progress
-                progressObserver = KeyValueObserver(object: progress, keyPath: "completedUnitCount") { [unowned self] _ in
+                progressObserver = KeyValueObserver(object: progress, keyPath: #keyPath(Progress.completedUnitCount)) { [unowned self] _ in
                     self.needsProgressUpdate = true
                 }
             } else {
@@ -68,7 +68,7 @@ class ProgressSheetController : NSWindowController {
                                         selector: #selector(updateProgress(with:)),
                                         userInfo: nil,
                                         repeats: false)
-                self.progressUpdateTimer = updateTimer
+                progressUpdateTimer = updateTimer
                 RunLoop.main.add(updateTimer, forMode: RunLoopMode.commonModes)
             }
         }
@@ -109,18 +109,18 @@ class ProgressSheetController : NSWindowController {
         guard needsProgressUpdate,
             let window = window,
             window.isVisible,
-            let localizedProgressMessageKey = localizedProgressMesageKey,
             let progress = progress,
             progress.completedUnitCount < progress.totalUnitCount else {
                 return
         }
-
+        
         needsProgressUpdate = false
-
-        let formatString = NSLocalizedString(localizedProgressMessageKey, comment: "")
-        let message = String.localizedStringWithFormat(formatString, progress.completedUnitCount + 1, progress.totalUnitCount)
-
-        messageLabel.stringValue = message
         progressIndicator.doubleValue = 100 * progress.fractionCompleted
+
+        if let localizedProgressMessageKey = localizedProgressMesageKey {
+            let formatString = NSLocalizedString(localizedProgressMessageKey, comment: "")
+            let message = String.localizedStringWithFormat(formatString, progress.completedUnitCount + 1, progress.totalUnitCount)
+            messageLabel.stringValue = message
+        }
     }
 }
