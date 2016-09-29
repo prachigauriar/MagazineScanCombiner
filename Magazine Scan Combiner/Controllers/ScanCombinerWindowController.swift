@@ -180,17 +180,12 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
     // MARK: - File Drop Image and Path Field View delegate
 
     func fileDropImageAndPathFieldView(_ view: FileDropImageAndPathFieldView, shouldAcceptDraggedFileURL fileURL: URL) -> Bool {
-        do {
-            var resourceValue: AnyObject? = nil
-            try (fileURL as NSURL).getResourceValue(&resourceValue, forKey: URLResourceKey.typeIdentifierKey)
-            guard let fileType = resourceValue as? String else {
+        guard let resourceValues = try? fileURL.resourceValues(forKeys: [URLResourceKey.typeIdentifierKey]),
+            let fileType = resourceValues.typeIdentifier else {
                 return false
-            }
-
-            return UTTypeConformsTo(fileType as CFString, kUTTypePDF)
-        } catch {
-            return false
         }
+
+        return UTTypeConformsTo(fileType as CFString, kUTTypePDF)
     }
 
 

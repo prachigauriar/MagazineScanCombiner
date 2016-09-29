@@ -36,17 +36,12 @@ protocol FileDropImageViewDelegate {
     /// accept spreadsheets, your implementation may look like:
     ///
     /// ```
-    /// do {
-    ///     var resourceValue: AnyObject? = nil
-    ///     try (fileURL as NSURL).getResourceValue(&resourceValue, forKey: URLResourceKey.typeIdentifierKey)
-    ///     guard let fileType = resourceValue as? String else {
+    /// guard let resourceValues = try? fileURL.resourceValues(forKeys: [URLResourceKey.typeIdentifierKey]),
+    ///     let fileType = resourceValues.typeIdentifier else {
     ///         return false
-    ///     }
-    ///
-    ///     return UTTypeConformsTo(fileType as CFString, kUTTypeSpreadsheet)
-    /// } catch {
-    ///     return false
     /// }
+    ///
+    /// return UTTypeConformsTo(fileType as CFString, kUTTypeSpreadsheet)
     /// ```
     ///
     /// - parameter imageView: The file drop image view.
