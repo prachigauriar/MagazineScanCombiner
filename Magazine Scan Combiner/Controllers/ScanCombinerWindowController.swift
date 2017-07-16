@@ -62,8 +62,8 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
     // MARK: - NSWindowController subclass overrides
 
-    override var windowNibName: String? {
-        return "ScanCombinerWindow"
+    override var windowNibName: NSNib.Name? {
+        return .scanCombinerWindow
     }
 
 
@@ -79,7 +79,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
 
     @IBAction func combinePDFs(_ sender: NSButton) {
         guard let window = window, let directoryURL = frontPagesURL?.deletingLastPathComponent() else {
-            NSBeep()
+            NSSound.beep()
             return
         }
 
@@ -91,9 +91,8 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
         savePanel.canSelectHiddenExtension = true
 
         savePanel.beginSheetModal(for: window) { [unowned self] result in
-            guard result == NSFileHandlingPanelOKButton,
-                let outputURL = savePanel.url else {
-                    return
+            guard result == .OK, let outputURL = savePanel.url else {
+                return
             }
 
             self.beginCombiningPDFs(withOutputURL: outputURL)
@@ -138,7 +137,7 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
                 self.showAlert(for: error)
             } else if !operation.isCancelled {
                 // Otherwise show the resultant PDF in the Finder if it wasn’t canceled
-                NSWorkspace.shared().activateFileViewerSelecting([outputURL])
+                NSWorkspace.shared.activateFileViewerSelecting([outputURL])
             }
         })
 
@@ -196,4 +195,9 @@ class ScanCombinerWindowController : NSWindowController, FileDropImageAndPathFie
             reversedBackPagesURL = fileURL
         }
     }
+}
+
+
+private extension NSNib.Name {
+    static let scanCombinerWindow = NSNib.Name("ScanCombinerWindow")
 }

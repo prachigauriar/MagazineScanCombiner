@@ -77,8 +77,8 @@ class ProgressSheetController : NSWindowController {
 
     // MARK: - NSWindowController subclass overrides
 
-    override var windowNibName: String? {
-        return "ProgressSheetWindow"
+    override var windowNibName: NSNib.Name? {
+        return .progressSheetWindow
     }
 
 
@@ -99,7 +99,7 @@ class ProgressSheetController : NSWindowController {
 
     // MARK: - Updating the progress UI
 
-    func updateProgress(with timer: Timer) {
+    @objc func updateProgress(with timer: Timer) {
         progressUpdateTimer = nil
         updateProgress()
     }
@@ -123,4 +123,9 @@ class ProgressSheetController : NSWindowController {
             messageLabel.stringValue = message
         }
     }
+}
+
+
+private extension NSNib.Name {
+    static let progressSheetWindow = NSNib.Name("ProgressSheetWindow")
 }

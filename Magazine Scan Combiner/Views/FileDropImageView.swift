@@ -80,13 +80,13 @@ protocol FileDropImageViewDelegate {
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        register(forDraggedTypes: [kUTTypeFileURL as String])
+        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: kUTTypeFileURL as String)])
     }
 
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        register(forDraggedTypes: [kUTTypeFileURL as String])
+        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: kUTTypeFileURL as String)])
     }
 
 
@@ -123,7 +123,7 @@ protocol FileDropImageViewDelegate {
             return nil
         }
 
-        return NSWorkspace.shared().icon(forFile: filePath)
+        return NSWorkspace.shared.icon(forFile: filePath)
     }
 
 
@@ -139,7 +139,7 @@ protocol FileDropImageViewDelegate {
     }
 
 
-    override func draggingEnded(_ sender: NSDraggingInfo?) {
+    override func draggingEnded(_ sender: NSDraggingInfo) {
         isHighlighted = false
         needsDisplay = true
     }

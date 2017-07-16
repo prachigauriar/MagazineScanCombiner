@@ -131,7 +131,7 @@ protocol FileDropImageAndPathFieldViewDelegate {
         pathField.isBezeled = true
         pathField.bezelStyle = .squareBezel
         pathField.cell?.isScrollable = true
-        pathField.setContentCompressionResistancePriority(250, for: .horizontal)
+        pathField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         addSubview(fileDropImageView)
         addSubview(pathField)
